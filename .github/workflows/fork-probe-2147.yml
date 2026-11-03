@@ -1,0 +1,12 @@
+# Fork-only (never upstream): probes the SolidCraft #2147 join on GitHub's runners.
+name: fork probe 2147
+on:
+  push:
+    branches: [probe/solidcraft-2147]
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo run -p difftest -- --solidcraft-cases '2147-*' --no-report
