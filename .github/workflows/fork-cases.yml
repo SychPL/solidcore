@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ref: probe/solidcraft-2851
+          - ref: cases/solidcraft-2851
             glob: "2851-*"
     runs-on: ubuntu-24.04
     steps:
