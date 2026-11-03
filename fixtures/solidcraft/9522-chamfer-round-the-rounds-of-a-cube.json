@@ -1,1986 +1,1559 @@
 {
  "issue": "https://github.com/tangency-labs/solidcraft/issues/9522",
  "pr": "https://github.com/tangency-labs/solidcraft/pull/4012",
- "test": "TEST",
- "summary": "SUMMARY",
+ "test": "probe",
+ "summary": "fork-only probe",
  "cases": [
   {
-   "name": "rounded_cube",
-   "note": "Control: the cube with its four vertical edges rounded R5, no chamfer.",
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "result",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 26356.194490192345,
-     "tol": 0.6438055098076552,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) (tol: 0.1 % of the rounds)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_3_round_the_rounds",
-   "note": "Chamfer 3 on the bottom loop (four lines and four arcs, picked in the issue's order): the arcs' chamfers are cones whose apexes stay 2 mm short of the rounds' axes. On SolidCraft 0.29.0 (truck) this builds with four cone faces.",
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 3.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25883.09715466311,
-     "tol": 1.1169028453368879,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*3^2 - pi*3^2*(5 - 3/3) (the chamfer below the bottom face, by the coarea formula: int_0^3 (3 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 3 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 3 at radius 5 - 3/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_4_round_the_rounds",
-   "note": "Chamfer 4 on the bottom loop: the cones' apexes 1 mm short of the axes. On SolidCraft 0.29.0 (truck) this builds with four cone faces.",
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 4.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25531.887721181745,
-     "tol": 1.4681122788182566,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4^2 - pi*4^2*(5 - 4/3) (the chamfer below the bottom face, by the coarea formula: int_0^4 (4 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4 at radius 5 - 4/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_5_as_wide_as_the_rounds",
-   "note": "The issue's case: chamfer 5 on the bottom loop, as wide as the R5 rounds, so each arc's chamfer is a cone whose apex is on its round's axis, at a corner of the bottom face (a 20 x 20 square now). On SolidCraft 0.29.0 (truck) the four arcs' chamfers came out as spheres (round's balls) and the volume 119.7 mm^3 too large.",
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 5.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25094.395102393195,
-     "tol": 1.9056048976068045,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_3_round_the_rounds_cone_fixes",
-   "note": "Chamfer 3 on the bottom loop (four lines and four arcs, picked in the issue's order): the arcs' chamfers are cones whose apexes stay 2 mm short of the rounds' axes. On SolidCraft 0.29.0 (truck) this builds with four cone faces.",
-   "fixes": [
-    "fillet_chamfer_cone_on_arc",
-    "fillet_chamfer_cone_stored_as_cone",
-    "fillet_torus_center_on_axis",
-    "fillet_torus_rail_on_axis",
-    "fillet_blend_curve_revolved_on_arc"
-   ],
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 3.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25883.09715466311,
-     "tol": 1.1169028453368879,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*3^2 - pi*3^2*(5 - 3/3) (the chamfer below the bottom face, by the coarea formula: int_0^3 (3 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 3 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 3 at radius 5 - 3/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_3_round_the_rounds_solidcraft_fixes",
-   "note": "Chamfer 3 on the bottom loop (four lines and four arcs, picked in the issue's order): the arcs' chamfers are cones whose apexes stay 2 mm short of the rounds' axes. On SolidCraft 0.29.0 (truck) this builds with four cone faces.",
-   "fixes": [
-    "fillet_retry_radius_as_first",
-    "fillet_rail_rim_on_face",
-    "fillet_refuse_rails_leaving_faces",
-    "fillet_refuse_face_consuming_blends",
-    "fillet_refuse_non_manifold_result",
-    "fillet_vertex_error_diagnostics",
-    "fillet_corner_ball_patch",
-    "fillet_chamfer_cone_on_arc",
-    "fillet_torus_center_on_axis",
-    "offset_excess_faces_after_merge",
-    "offset_clip_right_side_out",
-    "revolution_offset_axis_both_sides",
-    "offset_extended_edges_mated",
-    "remove_slit_loops_where_solids_touch",
-    "keep_operand_uv_trims",
-    "proto_vertex_miss_is_false",
-    "check_loop_vertex_tolerance",
-    "check_loop_projected_seam_ends",
-    "trim_boundary_seam_wrap",
-    "bspline_check_min_radius",
-    "oscillating_skips_failed_guesses",
-    "refine_cc_range_ends",
-    "flat_corners_test_bits",
-    "cylinder_rebuild_mean_radius",
-    "planar_path_uncapped_open_profiles",
-    "revolve_analytic_profile_faces",
-    "revolve_arc_centre_near_axis_is_sphere",
-    "taper_pivot_nearest_corner",
-    "taper_tangent_corner_planes",
-    "revolve_nested_shells_as_cavities",
-    "revolve_holed_profile_void",
-    "curve_sweep_caps_at_sweep_ends",
-    "join_touching_loops",
-    "uv_trim_reversal_on_surface",
-    "offset_resolve_crossing_loops",
-    "offset_walls_touch_refused",
-    "offset_analytic_mate_edges",
-    "precise_properties_split_at_surface_knots",
-    "nurb_cylinder_inside_out_frame",
-    "shell_inner_shell_of_statuses",
-    "local_operation_offset_status",
-    "local_operation_refuses_loose_tangent_edges",
-    "torus_major_radius_from_origin",
-    "fillet_corner_sphere_from_four_arcs",
-    "fillet_nx1_opposite_continuation_side_edge",
-    "fillet_trace_rejects_short_step",
-    "torus_iso_circle_axis_from_midpoint",
-    "torus_keeps_inside_out",
-    "internal_pole_row_through_knot",
-    "extrusion_origin_scaled_zero",
-    "transform_scales_each_tolerance",
-    "transform_model_size_from_body_box",
-    "offset_collapsed_rounds_mated",
-    "offset_missing_surface_fails",
-    "fillet_nx1_end_rib_global_merge",
-    "uv_trim_corner_end_points_only",
-    "bspline_trim_preserves_uv_spans",
-    "cone_parallel_line_midpoint",
-    "cone_parallel_line_domains",
-    "proto_edge_self_loop_on_vertex_degenerate",
-    "slice_coincident_faces_sheet_side",
-    "boolean_outer_shell_first",
-    "edge_reversal_keeps_failed_edge",
-    "topology_failed_evaluations_propagate",
-    "heal_stage3_failures_propagate",
-    "sweep_frame_on_planar_path_normal",
-    "cover_refuses_folded_continuation",
-    "boolean_vertex_by_best_crossing",
-    "boolean_cleanup_removes_slits",
-    "classify_edge_interval",
-    "ellipse_trim_seam_lines_span_cone_height",
-    "degenerate_proto_edge_in_one_vertex",
-    "new_edge_vertex_tolerance_covers_gap",
-    "torus_signed_gen_curve_interval",
-    "sheet_sweep_joins_profile_wires",
-    "point_solve_keeps_triangle_guess",
-    "fillet_setback_from_start_vertex",
-    "imprint_trims_edge_to_proto_vertex",
-    "imprint_extends_edge_to_proto_vertex",
-    "fillet_point_step_per_point",
-    "analytic_copy_keeps_parameterization",
-    "fillet_point_bigger_step_retry",
-    "fillet_through_extended_rail_end",
-    "precise_properties_body_length_scale",
-    "offset_extension_from_base",
-    "corner_blend_stays_inside_neighbours",
-    "fillet_cleanup_keeps_target_faces",
-    "fillet_nx1_tangent_side_edge",
-    "fillet_3x2_mixed_concave_side_edge",
-    "offset_closed_curve_trim_arc",
-    "offset_stitch_at_body_tolerance",
-    "curve_contacts_at_curve_ends",
-    "shell_empty_cavity_fails",
-    "fillet_refuse_ball_not_fitting",
-    "boolean_lists_virtual_surface_copies",
-    "sphere_small_circle_not_touching",
-    "ssi_tangent_contact_points",
-    "ssi_trace_tangent_curves_once",
-    "ssi_singular_start_inside_direction",
-    "found_torus_sphere_keep_tested_nurb",
-    "boolean_skips_faces_apart",
-    "uv_trim_checks_on_surface",
-    "loop_orientation_floor_from_loop_box",
-    "offset_extends_cones_as_themselves",
-    "local_operation_box_holds_new_surfaces",
-    "uv_trim_joins_drop_pieces",
-    "shell_edges_on_analytics_exact",
-    "ssi_no_reverse_of_empty_trace",
-    "ssi_pole_point_keeps_its_tangent",
-    "iso_curve_sliver_domain_is_degenerate",
-    "corner_blend_coons_patch_tangent_to_sides",
-    "fillet_patch_keeps_fillet_edges",
-    "fillet_corner_ball_center_from_axes",
-    "seam_point_solutions_are_one",
-    "boolean2d_plane_covers_far_faces",
-    "brep_area_between_solid_and_void",
-    "boolean_splits_definition_across_split",
-    "curve_tight_box_interval_knots",
-    "fillet_refuse_overlapping_bands",
-    "ssi_tangent_curve_tracer",
-    "torus_check_reads_v_interval",
-    "torus_check_spindle_apex",
-    "local_operation_step_walls",
-    "edge_check_orders_tangent_faces",
-    "revolve_arc_touching_axis_is_horn_torus",
-    "thicken_planar_side_walls",
-    "fillet_torus_span_from_start_section",
-    "fillet_knife_edge_rounds",
-    "taper_wall_closes_at_apex",
-    "revolution_round_offset_collapses",
-    "fillet_chamfer_cone_stored_as_cone",
-    "offset_point_vertex_caps",
-    "approximate_surface_bezier_starter",
-    "proto_edge_splits_at_captured_vertices",
-    "stitch_solid_nests_cavities",
-    "local_operation_closes_walls_to_nothing",
-    "linear_sweep_arc_to_cylinder_zero",
-    "imprint_reuses_coincident_face_edge",
-    "boolean_new_face_closure_both_sides",
-    "linear_sweep_arc_is_cylinder",
-    "offset_closes_loop_gaps",
-    "cylinder_plane_tangent_within_tolerance",
-    "boolean_wire_edge_keeps_faceuse_shell",
-    "fillet_nx1_tangent_corner_edge",
-    "fillet_torus_rail_on_axis",
-    "loops_go_on_round_the_vertex",
-    "revolve_splits_curves_on_axis",
-    "cover_wraps_across_closed_seam",
-    "imprint_extension_keeps_analytic_curve",
-    "fillet_trace_from_tangent_point_toward_next",
-    "fillet_tangent_point_one_sided_step",
-    "fillet_rails_meet_at_one_end_point",
-    "fillet_trace_reaches_rails",
-    "delete_vertex_joins_seam_iso_curve",
-    "box_face_failures_propagate",
-    "ellipse_adjust_step_interval_keeps_turns",
-    "fillet_cleanup_removes_input_slits",
-    "fillet_rail_end_on_continued_surface",
-    "glue_vertices_joins_every_region",
-    "fillet_nx1_tangent_side_edge_same_convexity",
-    "fillet_removal_takes_ring_fillets",
-    "fillet_trim_inside_by_best_dot",
-    "fillet_half_degree_crease",
-    "fillet_split_edge_keeps_near_half",
-    "curve_loop_normal_from_area",
-    "fillet_cliff_overflow",
-    "fillet_3x2_tangent_side_edge_roles",
-    "offset_extension_as_itself",
-    "fillet_mitre_concave_face_corners",
-    "fillet_mitre_gap_patch",
-    "fillet_run_on_past_far_end_only",
-    "good_drop_result_distances_in_order",
-    "face_tight_box_searches_trim",
-    "ssi_low_angle_start_on_probation",
-    "fillet_variable_span_follows_fillet",
-    "simple_coincidence_crossing_is_point",
-    "boolean_temporary_transform_statuses",
-    "primitive_path_curve_statuses",
-    "planar_path_sweep_statuses",
-    "planar_path_profile_placement_statuses",
-    "fillet_trim_status",
-    "perspective_sphere_offsets",
-    "plane_recognition_origin_after_axes",
-    "fillet_corner_face_curve_halves",
-    "brep_edit_statuses_pass_on",
-    "fillet_run_on_bspline_trims",
-    "offset_tangent_gap_statuses",
-    "ssi_alignment_statuses",
-    "fillet_corner_statuses",
-    "fillet_edge_curve_domain_statuses",
-    "query_statuses_pass_on",
-    "sweep_statuses_pass_on",
-    "ssi_proto_topology_statuses_pass_on",
-    "analytic_inversion_answers_apart",
-    "fillet_statuses_pass_on",
-    "fillet_corner_per_vertex_fan",
-    "fillet_rail_trim_at_near_knot",
-    "offset_splits_corner_vertices",
-    "offset_keep_cavity_regions",
-    "offset_four_face_vertex_split",
-    "gap_samples_non_bspline_v_stride",
-    "gap_array_append_updates_longest",
-    "imprint_skips_collapsed_definition",
-    "precise_properties_trim_base_v",
-    "fillet_blend_curve_revolved_on_arc",
-    "temporary_radius_setup_errors",
-    "ellipse_step_interval_checks",
-    "corner_patch_face_side_twist",
-    "boolean_union_refuses_solid_leak",
-    "curve_loop_start_after_previous_end",
-    "loop_use_reports_open_gaps",
-    "face_points_span_domain",
-    "drop_curve_v_domain_degeneracy",
-    "mirror_curve_keeps_euclidean_control_points",
-    "fillet_corner_variable_radius_rail_on_opposite_fillet",
-    "sphere_from_arcs_common_centre",
-    "dupin_bottom_hyperbola_axis",
-    "extent3d_contains_both_segment_endpoints",
-    "translation_sweep_regularize",
-    "gap_samples_use_trimmed_spans",
-    "twist_simple_duw_sign",
-    "offset_swap_uv_extended_distance",
-    "circumscribe_axis_map_by_basis",
-    "planar_path_profile_in_path_frame",
-    "validation_does_not_make_uv_trims",
-    "iso_curve_uv_line_both_params",
-    "extrusion_step_uses_clamped_uv",
-    "analytic_corner_failure_is_false",
-    "defeature_refuses_open_base",
-    "ssi_start_loop_trace_budget",
-    "fillet_refuse_crossing_rails",
-    "proto_edge_split_upper_keeps_the_old_max",
-    "point_on_start_point_squared_tolerance",
-    "bspline_trim_keeps_rational_end_spans",
-    "fillet_exact_round_classes",
-    "curve_check_zero_speed_tangent_end",
-    "cpoly_remove_poly_face_check_member",
-    "check_seam_crossing_unclosed",
-    "ascii_doubles_round_trip",
-    "transform_aligned_bbox_image",
-    "bspline_simple_offset_matches_parameterization",
-    "offset_edges_keep_source_tolerance",
-    "best_fit_line_largest_scatter_eigenvector",
-    "circle_silhouette_perspective_center",
-    "ellipse_convert_to_2d_uses_both_axes",
-    "circle_offset_antiparallel_normal",
-    "masked_array_uses_bit_shift",
-    "global_solver_identical_prefers_larger_when_maximizing",
-    "surface_continuity_checks_last_v_knot",
-    "surface_point_solver_propagates_bbox_failure",
-    "volume_lift_third_derivative_terms",
-    "volume_discontinuity_checks_vw_unaligned",
-    "periodic_extent_add_empty_interval",
-    "stop_tracking_checks_own_callback",
-    "plane_reparameterize_moves_origin",
-    "crv_in_volume_mults_by_break_index",
-    "curve_bounded_surface_read_uv_type_and_implicit_outer",
-    "polar_box_region_to_arc_transposes_domain",
-    "point_set_centroid_all_blocks",
-    "local_solve1d_unbounded_newton_step",
-    "composite_curve_bbox_segment_intervals",
-    "knot_vector_valid_requires_span",
-    "projected_curve_transform_when_owned",
-    "curve_property_gs_branch_bounds",
-    "volume_representational_end_continuities",
-    "integrator_propagates_failure",
-    "precise_properties_span_end_from_below",
-    "offset_open_edge_second_trim_point",
-    "close_loop_relates_only_coincident_edges",
-    "ssi_split_curves_at_singular_points",
-    "surface_parallel_to_vector_checks",
-    "fillet_round_ends_at_tangent_continuation",
-    "geometric_g2_continuity",
-    "hash_table_grow_preserves_removed_records",
-    "bend_volume_bbox_contains_wide_angle_and_inf_u",
-    "bend_volume_trim_param_box_across_period",
-    "point_set_tight_pbox_projects_points",
-    "degen_param_tiebreak_uses_actual_param",
-    "conic_evaluate_uses_computed_second_deriv",
-    "cylinder_plane_section_trims_exact",
-    "local_surface_intersect_guards_max_boundary_retry",
-    "curve_max_distance_single_sample_midpoint",
-    "curve_sweep_closed_path_joins_ends",
-    "validate_tolerances_fixes_reported_gaps",
-    "edgeuse_convexity_propagates_step_off_failure",
-    "mark_lock_pair_advances_and_locks_second_context",
-    "is_iso_curve_at_propagates_canonical_failure",
-    "database_io_byte_swaps_read_boolean_and_u16",
-    "is_point_on_curve_propagates_eval_failure",
-    "is_topological_vertex_rejects_cusps_and_tangent_errors",
-    "cone_create_canonical_preserves_inside_out_and_checks_height",
-    "point_class_gap_3d_propagates_no_drop_error",
-    "fillet_surface_plane_curve_on_plane_equation",
-    "fillet_gn_section_generator",
-    "face_trim_curves_kept_where_exact",
-    "swap_uv_keeps_analytic_definition",
-    "face_shrink_bound_on_knot",
-    "offset_updates_result_tolerances",
-    "cone_iso_circle_at_axial_height",
-    "boolean_coincident_strip_drops_crossing",
-    "fillet_overflow_trim_at_creases",
-    "fillet_section_end_trim_at_creases",
-    "fillet_refuse_mixed_corner_crossing_rails",
-    "fillet_keep_features",
-    "fillet_blend_corner",
-    "fillet_exact_arc_sections",
-    "fillet_exact_arc_spans",
-    "cone_unbounded_parameterized_as_nurb",
-    "ellipse_open_arc_keeps_end_angle",
-    "fillet_round_as_definition",
-    "fillet_round_on_round_as_definition",
-    "fillet_overflow_crease_along_edge",
-    "plane_first_torus_section_exact",
-    "keep_exact_pcurves",
-    "shell_one_construction"
-   ],
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 3.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25883.09715466311,
-     "tol": 1.1169028453368879,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*3^2 - pi*3^2*(5 - 3/3) (the chamfer below the bottom face, by the coarea formula: int_0^3 (3 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 3 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 3 at radius 5 - 3/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_4_round_the_rounds_cone_fixes",
-   "note": "Chamfer 4 on the bottom loop: the cones' apexes 1 mm short of the axes. On SolidCraft 0.29.0 (truck) this builds with four cone faces.",
-   "fixes": [
-    "fillet_chamfer_cone_on_arc",
-    "fillet_chamfer_cone_stored_as_cone",
-    "fillet_torus_center_on_axis",
-    "fillet_torus_rail_on_axis",
-    "fillet_blend_curve_revolved_on_arc"
-   ],
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 4.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25531.887721181745,
-     "tol": 1.4681122788182566,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4^2 - pi*4^2*(5 - 4/3) (the chamfer below the bottom face, by the coarea formula: int_0^4 (4 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4 at radius 5 - 4/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_4_round_the_rounds_solidcraft_fixes",
-   "note": "Chamfer 4 on the bottom loop: the cones' apexes 1 mm short of the axes. On SolidCraft 0.29.0 (truck) this builds with four cone faces.",
-   "fixes": [
-    "fillet_retry_radius_as_first",
-    "fillet_rail_rim_on_face",
-    "fillet_refuse_rails_leaving_faces",
-    "fillet_refuse_face_consuming_blends",
-    "fillet_refuse_non_manifold_result",
-    "fillet_vertex_error_diagnostics",
-    "fillet_corner_ball_patch",
-    "fillet_chamfer_cone_on_arc",
-    "fillet_torus_center_on_axis",
-    "offset_excess_faces_after_merge",
-    "offset_clip_right_side_out",
-    "revolution_offset_axis_both_sides",
-    "offset_extended_edges_mated",
-    "remove_slit_loops_where_solids_touch",
-    "keep_operand_uv_trims",
-    "proto_vertex_miss_is_false",
-    "check_loop_vertex_tolerance",
-    "check_loop_projected_seam_ends",
-    "trim_boundary_seam_wrap",
-    "bspline_check_min_radius",
-    "oscillating_skips_failed_guesses",
-    "refine_cc_range_ends",
-    "flat_corners_test_bits",
-    "cylinder_rebuild_mean_radius",
-    "planar_path_uncapped_open_profiles",
-    "revolve_analytic_profile_faces",
-    "revolve_arc_centre_near_axis_is_sphere",
-    "taper_pivot_nearest_corner",
-    "taper_tangent_corner_planes",
-    "revolve_nested_shells_as_cavities",
-    "revolve_holed_profile_void",
-    "curve_sweep_caps_at_sweep_ends",
-    "join_touching_loops",
-    "uv_trim_reversal_on_surface",
-    "offset_resolve_crossing_loops",
-    "offset_walls_touch_refused",
-    "offset_analytic_mate_edges",
-    "precise_properties_split_at_surface_knots",
-    "nurb_cylinder_inside_out_frame",
-    "shell_inner_shell_of_statuses",
-    "local_operation_offset_status",
-    "local_operation_refuses_loose_tangent_edges",
-    "torus_major_radius_from_origin",
-    "fillet_corner_sphere_from_four_arcs",
-    "fillet_nx1_opposite_continuation_side_edge",
-    "fillet_trace_rejects_short_step",
-    "torus_iso_circle_axis_from_midpoint",
-    "torus_keeps_inside_out",
-    "internal_pole_row_through_knot",
-    "extrusion_origin_scaled_zero",
-    "transform_scales_each_tolerance",
-    "transform_model_size_from_body_box",
-    "offset_collapsed_rounds_mated",
-    "offset_missing_surface_fails",
-    "fillet_nx1_end_rib_global_merge",
-    "uv_trim_corner_end_points_only",
-    "bspline_trim_preserves_uv_spans",
-    "cone_parallel_line_midpoint",
-    "cone_parallel_line_domains",
-    "proto_edge_self_loop_on_vertex_degenerate",
-    "slice_coincident_faces_sheet_side",
-    "boolean_outer_shell_first",
-    "edge_reversal_keeps_failed_edge",
-    "topology_failed_evaluations_propagate",
-    "heal_stage3_failures_propagate",
-    "sweep_frame_on_planar_path_normal",
-    "cover_refuses_folded_continuation",
-    "boolean_vertex_by_best_crossing",
-    "boolean_cleanup_removes_slits",
-    "classify_edge_interval",
-    "ellipse_trim_seam_lines_span_cone_height",
-    "degenerate_proto_edge_in_one_vertex",
-    "new_edge_vertex_tolerance_covers_gap",
-    "torus_signed_gen_curve_interval",
-    "sheet_sweep_joins_profile_wires",
-    "point_solve_keeps_triangle_guess",
-    "fillet_setback_from_start_vertex",
-    "imprint_trims_edge_to_proto_vertex",
-    "imprint_extends_edge_to_proto_vertex",
-    "fillet_point_step_per_point",
-    "analytic_copy_keeps_parameterization",
-    "fillet_point_bigger_step_retry",
-    "fillet_through_extended_rail_end",
-    "precise_properties_body_length_scale",
-    "offset_extension_from_base",
-    "corner_blend_stays_inside_neighbours",
-    "fillet_cleanup_keeps_target_faces",
-    "fillet_nx1_tangent_side_edge",
-    "fillet_3x2_mixed_concave_side_edge",
-    "offset_closed_curve_trim_arc",
-    "offset_stitch_at_body_tolerance",
-    "curve_contacts_at_curve_ends",
-    "shell_empty_cavity_fails",
-    "fillet_refuse_ball_not_fitting",
-    "boolean_lists_virtual_surface_copies",
-    "sphere_small_circle_not_touching",
-    "ssi_tangent_contact_points",
-    "ssi_trace_tangent_curves_once",
-    "ssi_singular_start_inside_direction",
-    "found_torus_sphere_keep_tested_nurb",
-    "boolean_skips_faces_apart",
-    "uv_trim_checks_on_surface",
-    "loop_orientation_floor_from_loop_box",
-    "offset_extends_cones_as_themselves",
-    "local_operation_box_holds_new_surfaces",
-    "uv_trim_joins_drop_pieces",
-    "shell_edges_on_analytics_exact",
-    "ssi_no_reverse_of_empty_trace",
-    "ssi_pole_point_keeps_its_tangent",
-    "iso_curve_sliver_domain_is_degenerate",
-    "corner_blend_coons_patch_tangent_to_sides",
-    "fillet_patch_keeps_fillet_edges",
-    "fillet_corner_ball_center_from_axes",
-    "seam_point_solutions_are_one",
-    "boolean2d_plane_covers_far_faces",
-    "brep_area_between_solid_and_void",
-    "boolean_splits_definition_across_split",
-    "curve_tight_box_interval_knots",
-    "fillet_refuse_overlapping_bands",
-    "ssi_tangent_curve_tracer",
-    "torus_check_reads_v_interval",
-    "torus_check_spindle_apex",
-    "local_operation_step_walls",
-    "edge_check_orders_tangent_faces",
-    "revolve_arc_touching_axis_is_horn_torus",
-    "thicken_planar_side_walls",
-    "fillet_torus_span_from_start_section",
-    "fillet_knife_edge_rounds",
-    "taper_wall_closes_at_apex",
-    "revolution_round_offset_collapses",
-    "fillet_chamfer_cone_stored_as_cone",
-    "offset_point_vertex_caps",
-    "approximate_surface_bezier_starter",
-    "proto_edge_splits_at_captured_vertices",
-    "stitch_solid_nests_cavities",
-    "local_operation_closes_walls_to_nothing",
-    "linear_sweep_arc_to_cylinder_zero",
-    "imprint_reuses_coincident_face_edge",
-    "boolean_new_face_closure_both_sides",
-    "linear_sweep_arc_is_cylinder",
-    "offset_closes_loop_gaps",
-    "cylinder_plane_tangent_within_tolerance",
-    "boolean_wire_edge_keeps_faceuse_shell",
-    "fillet_nx1_tangent_corner_edge",
-    "fillet_torus_rail_on_axis",
-    "loops_go_on_round_the_vertex",
-    "revolve_splits_curves_on_axis",
-    "cover_wraps_across_closed_seam",
-    "imprint_extension_keeps_analytic_curve",
-    "fillet_trace_from_tangent_point_toward_next",
-    "fillet_tangent_point_one_sided_step",
-    "fillet_rails_meet_at_one_end_point",
-    "fillet_trace_reaches_rails",
-    "delete_vertex_joins_seam_iso_curve",
-    "box_face_failures_propagate",
-    "ellipse_adjust_step_interval_keeps_turns",
-    "fillet_cleanup_removes_input_slits",
-    "fillet_rail_end_on_continued_surface",
-    "glue_vertices_joins_every_region",
-    "fillet_nx1_tangent_side_edge_same_convexity",
-    "fillet_removal_takes_ring_fillets",
-    "fillet_trim_inside_by_best_dot",
-    "fillet_half_degree_crease",
-    "fillet_split_edge_keeps_near_half",
-    "curve_loop_normal_from_area",
-    "fillet_cliff_overflow",
-    "fillet_3x2_tangent_side_edge_roles",
-    "offset_extension_as_itself",
-    "fillet_mitre_concave_face_corners",
-    "fillet_mitre_gap_patch",
-    "fillet_run_on_past_far_end_only",
-    "good_drop_result_distances_in_order",
-    "face_tight_box_searches_trim",
-    "ssi_low_angle_start_on_probation",
-    "fillet_variable_span_follows_fillet",
-    "simple_coincidence_crossing_is_point",
-    "boolean_temporary_transform_statuses",
-    "primitive_path_curve_statuses",
-    "planar_path_sweep_statuses",
-    "planar_path_profile_placement_statuses",
-    "fillet_trim_status",
-    "perspective_sphere_offsets",
-    "plane_recognition_origin_after_axes",
-    "fillet_corner_face_curve_halves",
-    "brep_edit_statuses_pass_on",
-    "fillet_run_on_bspline_trims",
-    "offset_tangent_gap_statuses",
-    "ssi_alignment_statuses",
-    "fillet_corner_statuses",
-    "fillet_edge_curve_domain_statuses",
-    "query_statuses_pass_on",
-    "sweep_statuses_pass_on",
-    "ssi_proto_topology_statuses_pass_on",
-    "analytic_inversion_answers_apart",
-    "fillet_statuses_pass_on",
-    "fillet_corner_per_vertex_fan",
-    "fillet_rail_trim_at_near_knot",
-    "offset_splits_corner_vertices",
-    "offset_keep_cavity_regions",
-    "offset_four_face_vertex_split",
-    "gap_samples_non_bspline_v_stride",
-    "gap_array_append_updates_longest",
-    "imprint_skips_collapsed_definition",
-    "precise_properties_trim_base_v",
-    "fillet_blend_curve_revolved_on_arc",
-    "temporary_radius_setup_errors",
-    "ellipse_step_interval_checks",
-    "corner_patch_face_side_twist",
-    "boolean_union_refuses_solid_leak",
-    "curve_loop_start_after_previous_end",
-    "loop_use_reports_open_gaps",
-    "face_points_span_domain",
-    "drop_curve_v_domain_degeneracy",
-    "mirror_curve_keeps_euclidean_control_points",
-    "fillet_corner_variable_radius_rail_on_opposite_fillet",
-    "sphere_from_arcs_common_centre",
-    "dupin_bottom_hyperbola_axis",
-    "extent3d_contains_both_segment_endpoints",
-    "translation_sweep_regularize",
-    "gap_samples_use_trimmed_spans",
-    "twist_simple_duw_sign",
-    "offset_swap_uv_extended_distance",
-    "circumscribe_axis_map_by_basis",
-    "planar_path_profile_in_path_frame",
-    "validation_does_not_make_uv_trims",
-    "iso_curve_uv_line_both_params",
-    "extrusion_step_uses_clamped_uv",
-    "analytic_corner_failure_is_false",
-    "defeature_refuses_open_base",
-    "ssi_start_loop_trace_budget",
-    "fillet_refuse_crossing_rails",
-    "proto_edge_split_upper_keeps_the_old_max",
-    "point_on_start_point_squared_tolerance",
-    "bspline_trim_keeps_rational_end_spans",
-    "fillet_exact_round_classes",
-    "curve_check_zero_speed_tangent_end",
-    "cpoly_remove_poly_face_check_member",
-    "check_seam_crossing_unclosed",
-    "ascii_doubles_round_trip",
-    "transform_aligned_bbox_image",
-    "bspline_simple_offset_matches_parameterization",
-    "offset_edges_keep_source_tolerance",
-    "best_fit_line_largest_scatter_eigenvector",
-    "circle_silhouette_perspective_center",
-    "ellipse_convert_to_2d_uses_both_axes",
-    "circle_offset_antiparallel_normal",
-    "masked_array_uses_bit_shift",
-    "global_solver_identical_prefers_larger_when_maximizing",
-    "surface_continuity_checks_last_v_knot",
-    "surface_point_solver_propagates_bbox_failure",
-    "volume_lift_third_derivative_terms",
-    "volume_discontinuity_checks_vw_unaligned",
-    "periodic_extent_add_empty_interval",
-    "stop_tracking_checks_own_callback",
-    "plane_reparameterize_moves_origin",
-    "crv_in_volume_mults_by_break_index",
-    "curve_bounded_surface_read_uv_type_and_implicit_outer",
-    "polar_box_region_to_arc_transposes_domain",
-    "point_set_centroid_all_blocks",
-    "local_solve1d_unbounded_newton_step",
-    "composite_curve_bbox_segment_intervals",
-    "knot_vector_valid_requires_span",
-    "projected_curve_transform_when_owned",
-    "curve_property_gs_branch_bounds",
-    "volume_representational_end_continuities",
-    "integrator_propagates_failure",
-    "precise_properties_span_end_from_below",
-    "offset_open_edge_second_trim_point",
-    "close_loop_relates_only_coincident_edges",
-    "ssi_split_curves_at_singular_points",
-    "surface_parallel_to_vector_checks",
-    "fillet_round_ends_at_tangent_continuation",
-    "geometric_g2_continuity",
-    "hash_table_grow_preserves_removed_records",
-    "bend_volume_bbox_contains_wide_angle_and_inf_u",
-    "bend_volume_trim_param_box_across_period",
-    "point_set_tight_pbox_projects_points",
-    "degen_param_tiebreak_uses_actual_param",
-    "conic_evaluate_uses_computed_second_deriv",
-    "cylinder_plane_section_trims_exact",
-    "local_surface_intersect_guards_max_boundary_retry",
-    "curve_max_distance_single_sample_midpoint",
-    "curve_sweep_closed_path_joins_ends",
-    "validate_tolerances_fixes_reported_gaps",
-    "edgeuse_convexity_propagates_step_off_failure",
-    "mark_lock_pair_advances_and_locks_second_context",
-    "is_iso_curve_at_propagates_canonical_failure",
-    "database_io_byte_swaps_read_boolean_and_u16",
-    "is_point_on_curve_propagates_eval_failure",
-    "is_topological_vertex_rejects_cusps_and_tangent_errors",
-    "cone_create_canonical_preserves_inside_out_and_checks_height",
-    "point_class_gap_3d_propagates_no_drop_error",
-    "fillet_surface_plane_curve_on_plane_equation",
-    "fillet_gn_section_generator",
-    "face_trim_curves_kept_where_exact",
-    "swap_uv_keeps_analytic_definition",
-    "face_shrink_bound_on_knot",
-    "offset_updates_result_tolerances",
-    "cone_iso_circle_at_axial_height",
-    "boolean_coincident_strip_drops_crossing",
-    "fillet_overflow_trim_at_creases",
-    "fillet_section_end_trim_at_creases",
-    "fillet_refuse_mixed_corner_crossing_rails",
-    "fillet_keep_features",
-    "fillet_blend_corner",
-    "fillet_exact_arc_sections",
-    "fillet_exact_arc_spans",
-    "cone_unbounded_parameterized_as_nurb",
-    "ellipse_open_arc_keeps_end_angle",
-    "fillet_round_as_definition",
-    "fillet_round_on_round_as_definition",
-    "fillet_overflow_crease_along_edge",
-    "plane_first_torus_section_exact",
-    "keep_exact_pcurves",
-    "shell_one_construction"
-   ],
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 4.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25531.887721181745,
-     "tol": 1.4681122788182566,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4^2 - pi*4^2*(5 - 4/3) (the chamfer below the bottom face, by the coarea formula: int_0^4 (4 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4 at radius 5 - 4/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_5_as_wide_as_the_rounds_cone_fixes",
-   "note": "The issue's case: chamfer 5 on the bottom loop, as wide as the R5 rounds, so each arc's chamfer is a cone whose apex is on its round's axis, at a corner of the bottom face (a 20 x 20 square now). On SolidCraft 0.29.0 (truck) the four arcs' chamfers came out as spheres (round's balls) and the volume 119.7 mm^3 too large.",
-   "fixes": [
-    "fillet_chamfer_cone_on_arc",
-    "fillet_chamfer_cone_stored_as_cone",
-    "fillet_torus_center_on_axis",
-    "fillet_torus_rail_on_axis",
-    "fillet_blend_curve_revolved_on_arc"
-   ],
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 5.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25094.395102393195,
-     "tol": 1.9056048976068045,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_5_as_wide_as_the_rounds_solidcraft_fixes",
-   "note": "The issue's case: chamfer 5 on the bottom loop, as wide as the R5 rounds, so each arc's chamfer is a cone whose apex is on its round's axis, at a corner of the bottom face (a 20 x 20 square now). On SolidCraft 0.29.0 (truck) the four arcs' chamfers came out as spheres (round's balls) and the volume 119.7 mm^3 too large.",
-   "fixes": [
-    "fillet_retry_radius_as_first",
-    "fillet_rail_rim_on_face",
-    "fillet_refuse_rails_leaving_faces",
-    "fillet_refuse_face_consuming_blends",
-    "fillet_refuse_non_manifold_result",
-    "fillet_vertex_error_diagnostics",
-    "fillet_corner_ball_patch",
-    "fillet_chamfer_cone_on_arc",
-    "fillet_torus_center_on_axis",
-    "offset_excess_faces_after_merge",
-    "offset_clip_right_side_out",
-    "revolution_offset_axis_both_sides",
-    "offset_extended_edges_mated",
-    "remove_slit_loops_where_solids_touch",
-    "keep_operand_uv_trims",
-    "proto_vertex_miss_is_false",
-    "check_loop_vertex_tolerance",
-    "check_loop_projected_seam_ends",
-    "trim_boundary_seam_wrap",
-    "bspline_check_min_radius",
-    "oscillating_skips_failed_guesses",
-    "refine_cc_range_ends",
-    "flat_corners_test_bits",
-    "cylinder_rebuild_mean_radius",
-    "planar_path_uncapped_open_profiles",
-    "revolve_analytic_profile_faces",
-    "revolve_arc_centre_near_axis_is_sphere",
-    "taper_pivot_nearest_corner",
-    "taper_tangent_corner_planes",
-    "revolve_nested_shells_as_cavities",
-    "revolve_holed_profile_void",
-    "curve_sweep_caps_at_sweep_ends",
-    "join_touching_loops",
-    "uv_trim_reversal_on_surface",
-    "offset_resolve_crossing_loops",
-    "offset_walls_touch_refused",
-    "offset_analytic_mate_edges",
-    "precise_properties_split_at_surface_knots",
-    "nurb_cylinder_inside_out_frame",
-    "shell_inner_shell_of_statuses",
-    "local_operation_offset_status",
-    "local_operation_refuses_loose_tangent_edges",
-    "torus_major_radius_from_origin",
-    "fillet_corner_sphere_from_four_arcs",
-    "fillet_nx1_opposite_continuation_side_edge",
-    "fillet_trace_rejects_short_step",
-    "torus_iso_circle_axis_from_midpoint",
-    "torus_keeps_inside_out",
-    "internal_pole_row_through_knot",
-    "extrusion_origin_scaled_zero",
-    "transform_scales_each_tolerance",
-    "transform_model_size_from_body_box",
-    "offset_collapsed_rounds_mated",
-    "offset_missing_surface_fails",
-    "fillet_nx1_end_rib_global_merge",
-    "uv_trim_corner_end_points_only",
-    "bspline_trim_preserves_uv_spans",
-    "cone_parallel_line_midpoint",
-    "cone_parallel_line_domains",
-    "proto_edge_self_loop_on_vertex_degenerate",
-    "slice_coincident_faces_sheet_side",
-    "boolean_outer_shell_first",
-    "edge_reversal_keeps_failed_edge",
-    "topology_failed_evaluations_propagate",
-    "heal_stage3_failures_propagate",
-    "sweep_frame_on_planar_path_normal",
-    "cover_refuses_folded_continuation",
-    "boolean_vertex_by_best_crossing",
-    "boolean_cleanup_removes_slits",
-    "classify_edge_interval",
-    "ellipse_trim_seam_lines_span_cone_height",
-    "degenerate_proto_edge_in_one_vertex",
-    "new_edge_vertex_tolerance_covers_gap",
-    "torus_signed_gen_curve_interval",
-    "sheet_sweep_joins_profile_wires",
-    "point_solve_keeps_triangle_guess",
-    "fillet_setback_from_start_vertex",
-    "imprint_trims_edge_to_proto_vertex",
-    "imprint_extends_edge_to_proto_vertex",
-    "fillet_point_step_per_point",
-    "analytic_copy_keeps_parameterization",
-    "fillet_point_bigger_step_retry",
-    "fillet_through_extended_rail_end",
-    "precise_properties_body_length_scale",
-    "offset_extension_from_base",
-    "corner_blend_stays_inside_neighbours",
-    "fillet_cleanup_keeps_target_faces",
-    "fillet_nx1_tangent_side_edge",
-    "fillet_3x2_mixed_concave_side_edge",
-    "offset_closed_curve_trim_arc",
-    "offset_stitch_at_body_tolerance",
-    "curve_contacts_at_curve_ends",
-    "shell_empty_cavity_fails",
-    "fillet_refuse_ball_not_fitting",
-    "boolean_lists_virtual_surface_copies",
-    "sphere_small_circle_not_touching",
-    "ssi_tangent_contact_points",
-    "ssi_trace_tangent_curves_once",
-    "ssi_singular_start_inside_direction",
-    "found_torus_sphere_keep_tested_nurb",
-    "boolean_skips_faces_apart",
-    "uv_trim_checks_on_surface",
-    "loop_orientation_floor_from_loop_box",
-    "offset_extends_cones_as_themselves",
-    "local_operation_box_holds_new_surfaces",
-    "uv_trim_joins_drop_pieces",
-    "shell_edges_on_analytics_exact",
-    "ssi_no_reverse_of_empty_trace",
-    "ssi_pole_point_keeps_its_tangent",
-    "iso_curve_sliver_domain_is_degenerate",
-    "corner_blend_coons_patch_tangent_to_sides",
-    "fillet_patch_keeps_fillet_edges",
-    "fillet_corner_ball_center_from_axes",
-    "seam_point_solutions_are_one",
-    "boolean2d_plane_covers_far_faces",
-    "brep_area_between_solid_and_void",
-    "boolean_splits_definition_across_split",
-    "curve_tight_box_interval_knots",
-    "fillet_refuse_overlapping_bands",
-    "ssi_tangent_curve_tracer",
-    "torus_check_reads_v_interval",
-    "torus_check_spindle_apex",
-    "local_operation_step_walls",
-    "edge_check_orders_tangent_faces",
-    "revolve_arc_touching_axis_is_horn_torus",
-    "thicken_planar_side_walls",
-    "fillet_torus_span_from_start_section",
-    "fillet_knife_edge_rounds",
-    "taper_wall_closes_at_apex",
-    "revolution_round_offset_collapses",
-    "fillet_chamfer_cone_stored_as_cone",
-    "offset_point_vertex_caps",
-    "approximate_surface_bezier_starter",
-    "proto_edge_splits_at_captured_vertices",
-    "stitch_solid_nests_cavities",
-    "local_operation_closes_walls_to_nothing",
-    "linear_sweep_arc_to_cylinder_zero",
-    "imprint_reuses_coincident_face_edge",
-    "boolean_new_face_closure_both_sides",
-    "linear_sweep_arc_is_cylinder",
-    "offset_closes_loop_gaps",
-    "cylinder_plane_tangent_within_tolerance",
-    "boolean_wire_edge_keeps_faceuse_shell",
-    "fillet_nx1_tangent_corner_edge",
-    "fillet_torus_rail_on_axis",
-    "loops_go_on_round_the_vertex",
-    "revolve_splits_curves_on_axis",
-    "cover_wraps_across_closed_seam",
-    "imprint_extension_keeps_analytic_curve",
-    "fillet_trace_from_tangent_point_toward_next",
-    "fillet_tangent_point_one_sided_step",
-    "fillet_rails_meet_at_one_end_point",
-    "fillet_trace_reaches_rails",
-    "delete_vertex_joins_seam_iso_curve",
-    "box_face_failures_propagate",
-    "ellipse_adjust_step_interval_keeps_turns",
-    "fillet_cleanup_removes_input_slits",
-    "fillet_rail_end_on_continued_surface",
-    "glue_vertices_joins_every_region",
-    "fillet_nx1_tangent_side_edge_same_convexity",
-    "fillet_removal_takes_ring_fillets",
-    "fillet_trim_inside_by_best_dot",
-    "fillet_half_degree_crease",
-    "fillet_split_edge_keeps_near_half",
-    "curve_loop_normal_from_area",
-    "fillet_cliff_overflow",
-    "fillet_3x2_tangent_side_edge_roles",
-    "offset_extension_as_itself",
-    "fillet_mitre_concave_face_corners",
-    "fillet_mitre_gap_patch",
-    "fillet_run_on_past_far_end_only",
-    "good_drop_result_distances_in_order",
-    "face_tight_box_searches_trim",
-    "ssi_low_angle_start_on_probation",
-    "fillet_variable_span_follows_fillet",
-    "simple_coincidence_crossing_is_point",
-    "boolean_temporary_transform_statuses",
-    "primitive_path_curve_statuses",
-    "planar_path_sweep_statuses",
-    "planar_path_profile_placement_statuses",
-    "fillet_trim_status",
-    "perspective_sphere_offsets",
-    "plane_recognition_origin_after_axes",
-    "fillet_corner_face_curve_halves",
-    "brep_edit_statuses_pass_on",
-    "fillet_run_on_bspline_trims",
-    "offset_tangent_gap_statuses",
-    "ssi_alignment_statuses",
-    "fillet_corner_statuses",
-    "fillet_edge_curve_domain_statuses",
-    "query_statuses_pass_on",
-    "sweep_statuses_pass_on",
-    "ssi_proto_topology_statuses_pass_on",
-    "analytic_inversion_answers_apart",
-    "fillet_statuses_pass_on",
-    "fillet_corner_per_vertex_fan",
-    "fillet_rail_trim_at_near_knot",
-    "offset_splits_corner_vertices",
-    "offset_keep_cavity_regions",
-    "offset_four_face_vertex_split",
-    "gap_samples_non_bspline_v_stride",
-    "gap_array_append_updates_longest",
-    "imprint_skips_collapsed_definition",
-    "precise_properties_trim_base_v",
-    "fillet_blend_curve_revolved_on_arc",
-    "temporary_radius_setup_errors",
-    "ellipse_step_interval_checks",
-    "corner_patch_face_side_twist",
-    "boolean_union_refuses_solid_leak",
-    "curve_loop_start_after_previous_end",
-    "loop_use_reports_open_gaps",
-    "face_points_span_domain",
-    "drop_curve_v_domain_degeneracy",
-    "mirror_curve_keeps_euclidean_control_points",
-    "fillet_corner_variable_radius_rail_on_opposite_fillet",
-    "sphere_from_arcs_common_centre",
-    "dupin_bottom_hyperbola_axis",
-    "extent3d_contains_both_segment_endpoints",
-    "translation_sweep_regularize",
-    "gap_samples_use_trimmed_spans",
-    "twist_simple_duw_sign",
-    "offset_swap_uv_extended_distance",
-    "circumscribe_axis_map_by_basis",
-    "planar_path_profile_in_path_frame",
-    "validation_does_not_make_uv_trims",
-    "iso_curve_uv_line_both_params",
-    "extrusion_step_uses_clamped_uv",
-    "analytic_corner_failure_is_false",
-    "defeature_refuses_open_base",
-    "ssi_start_loop_trace_budget",
-    "fillet_refuse_crossing_rails",
-    "proto_edge_split_upper_keeps_the_old_max",
-    "point_on_start_point_squared_tolerance",
-    "bspline_trim_keeps_rational_end_spans",
-    "fillet_exact_round_classes",
-    "curve_check_zero_speed_tangent_end",
-    "cpoly_remove_poly_face_check_member",
-    "check_seam_crossing_unclosed",
-    "ascii_doubles_round_trip",
-    "transform_aligned_bbox_image",
-    "bspline_simple_offset_matches_parameterization",
-    "offset_edges_keep_source_tolerance",
-    "best_fit_line_largest_scatter_eigenvector",
-    "circle_silhouette_perspective_center",
-    "ellipse_convert_to_2d_uses_both_axes",
-    "circle_offset_antiparallel_normal",
-    "masked_array_uses_bit_shift",
-    "global_solver_identical_prefers_larger_when_maximizing",
-    "surface_continuity_checks_last_v_knot",
-    "surface_point_solver_propagates_bbox_failure",
-    "volume_lift_third_derivative_terms",
-    "volume_discontinuity_checks_vw_unaligned",
-    "periodic_extent_add_empty_interval",
-    "stop_tracking_checks_own_callback",
-    "plane_reparameterize_moves_origin",
-    "crv_in_volume_mults_by_break_index",
-    "curve_bounded_surface_read_uv_type_and_implicit_outer",
-    "polar_box_region_to_arc_transposes_domain",
-    "point_set_centroid_all_blocks",
-    "local_solve1d_unbounded_newton_step",
-    "composite_curve_bbox_segment_intervals",
-    "knot_vector_valid_requires_span",
-    "projected_curve_transform_when_owned",
-    "curve_property_gs_branch_bounds",
-    "volume_representational_end_continuities",
-    "integrator_propagates_failure",
-    "precise_properties_span_end_from_below",
-    "offset_open_edge_second_trim_point",
-    "close_loop_relates_only_coincident_edges",
-    "ssi_split_curves_at_singular_points",
-    "surface_parallel_to_vector_checks",
-    "fillet_round_ends_at_tangent_continuation",
-    "geometric_g2_continuity",
-    "hash_table_grow_preserves_removed_records",
-    "bend_volume_bbox_contains_wide_angle_and_inf_u",
-    "bend_volume_trim_param_box_across_period",
-    "point_set_tight_pbox_projects_points",
-    "degen_param_tiebreak_uses_actual_param",
-    "conic_evaluate_uses_computed_second_deriv",
-    "cylinder_plane_section_trims_exact",
-    "local_surface_intersect_guards_max_boundary_retry",
-    "curve_max_distance_single_sample_midpoint",
-    "curve_sweep_closed_path_joins_ends",
-    "validate_tolerances_fixes_reported_gaps",
-    "edgeuse_convexity_propagates_step_off_failure",
-    "mark_lock_pair_advances_and_locks_second_context",
-    "is_iso_curve_at_propagates_canonical_failure",
-    "database_io_byte_swaps_read_boolean_and_u16",
-    "is_point_on_curve_propagates_eval_failure",
-    "is_topological_vertex_rejects_cusps_and_tangent_errors",
-    "cone_create_canonical_preserves_inside_out_and_checks_height",
-    "point_class_gap_3d_propagates_no_drop_error",
-    "fillet_surface_plane_curve_on_plane_equation",
-    "fillet_gn_section_generator",
-    "face_trim_curves_kept_where_exact",
-    "swap_uv_keeps_analytic_definition",
-    "face_shrink_bound_on_knot",
-    "offset_updates_result_tolerances",
-    "cone_iso_circle_at_axial_height",
-    "boolean_coincident_strip_drops_crossing",
-    "fillet_overflow_trim_at_creases",
-    "fillet_section_end_trim_at_creases",
-    "fillet_refuse_mixed_corner_crossing_rails",
-    "fillet_keep_features",
-    "fillet_blend_corner",
-    "fillet_exact_arc_sections",
-    "fillet_exact_arc_spans",
-    "cone_unbounded_parameterized_as_nurb",
-    "ellipse_open_arc_keeps_end_angle",
-    "fillet_round_as_definition",
-    "fillet_round_on_round_as_definition",
-    "fillet_overflow_crease_along_edge",
-    "plane_first_torus_section_exact",
-    "keep_exact_pcurves",
-    "shell_one_construction"
-   ],
-   "steps": [
-    {
-     "op": "box",
-     "id": "cube",
-     "origin": [
-      -15.0,
-      -15.0,
-      0.0
-     ],
-     "size": [
-      30.0,
-      30.0,
-      30.0
-     ]
-    },
-    {
-     "op": "fillet",
-     "id": "rounded",
-     "body": "cube",
-     "edges": [
-      [
-       -15.0,
-       -15.0,
-       15.0
-      ],
-      [
-       -15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       15.0,
-       15.0
-      ],
-      [
-       15.0,
-       -15.0,
-       15.0
-      ]
-     ],
-     "radius": 5.0
-    },
-    {
-     "op": "chamfer",
-     "id": "result",
-     "body": "rounded",
-     "edges": [
-      [
-       -13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       -15.0,
-       0.0,
-       0.0
-      ],
-      [
-       -13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       15.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       13.535533905932738,
-       0.0
-      ],
-      [
-       15.0,
-       0.0,
-       0.0
-      ],
-      [
-       13.535533905932738,
-       -13.535533905932738,
-       0.0
-      ],
-      [
-       0.0,
-       -15.0,
-       0.0
-      ]
-     ],
-     "distance": 5.0
-    }
-   ],
-   "expect": {
-    "lumps": 1,
-    "manifold": true,
-    "volume": {
-     "value": 25094.395102393195,
-     "tol": 1.9056048976068045,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
-    }
-   }
-  },
-  {
-   "name": "chamfer_4_999",
+   "name": "d5_only_fillet_chamfer_cone_on_arc",
    "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_without_fillet_chamfer_cone_on_arc",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_only_fillet_chamfer_cone_stored_as_cone",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_stored_as_cone"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_without_fillet_chamfer_cone_stored_as_cone",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_only_fillet_torus_center_on_axis",
+   "note": "probe",
+   "fixes": [
+    "fillet_torus_center_on_axis"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_without_fillet_torus_center_on_axis",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_only_fillet_torus_rail_on_axis",
+   "note": "probe",
+   "fixes": [
+    "fillet_torus_rail_on_axis"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_without_fillet_torus_rail_on_axis",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_only_fillet_blend_curve_revolved_on_arc",
+   "note": "probe",
+   "fixes": [
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_without_fillet_blend_curve_revolved_on_arc",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "d5_cone_on_arc_and_center_on_axis",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_torus_center_on_axis"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 5.0
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.395102393195,
+     "tol": 1.9056048976068045,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_5_cone_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.5
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25323.53411086917,
+     "tol": 1.6764658891308317,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.5^2 - pi*4.5^2*(5 - 4.5/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.5 (4.5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.5 at radius 5 - 4.5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_9_cone_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.9
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25141.84803682962,
+     "tol": 1.8581519631703813,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.9^2 - pi*4.9^2*(5 - 4.9/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.9 (4.9 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.9 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.9 at radius 5 - 4.9/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_99_cone_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.99
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25099.176499509394,
+     "tol": 1.900823500490605,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.99^2 - pi*4.99^2*(5 - 4.99/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.99 (4.99 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.99 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.99 at radius 5 - 4.99/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_999_cone_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
    "steps": [
     {
      "op": "box",
@@ -2084,7 +1657,343 @@
    }
   },
   {
-   "name": "chamfer_4_999_solidcraft_fixes",
+   "name": "near_4_9999_cone_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.9999
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.442955974828,
+     "tol": 1.905557044025172,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.9999^2 - pi*4.9999^2*(5 - 4.9999/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.9999 (4.9999 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.9999 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.9999 at radius 5 - 4.9999/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_99999_cone_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.99999
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.39988778736,
+     "tol": 1.9056001122126416,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.99999^2 - pi*4.99999^2*(5 - 4.99999/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.99999 (4.99999 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.99999 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.99999 at radius 5 - 4.99999/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_5_cone_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_chamfer_cone_on_arc",
+    "fillet_chamfer_cone_stored_as_cone",
+    "fillet_torus_center_on_axis",
+    "fillet_torus_rail_on_axis",
+    "fillet_blend_curve_revolved_on_arc"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.999999
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.39558093297,
+     "tol": 1.9056044190670283,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*5^2 - pi*5^2*(5 - 5/3) (the chamfer below the bottom face, by the coarea formula: int_0^5 (5 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 5 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 5 at radius 5 - 5/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_9_solidcraft_fixes",
    "note": "probe",
    "fixes": [
     "fillet_retry_radius_as_first",
@@ -2492,16 +2401,1492 @@
        0.0
       ]
      ],
-     "distance": 4.999
+     "distance": 4.9
     }
    ],
    "expect": {
     "lumps": 1,
     "manifold": true,
     "volume": {
-     "value": 25094.87360220849,
-     "tol": 1.9051263977915118,
-     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.999^2 - pi*4.999^2*(5 - 4.999/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.999 (4.999 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.999 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.999 at radius 5 - 4.999/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+     "value": 25141.84803682962,
+     "tol": 1.8581519631703813,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.9^2 - pi*4.9^2*(5 - 4.9/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.9 (4.9 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.9 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.9 at radius 5 - 4.9/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_99_solidcraft_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_retry_radius_as_first",
+    "fillet_rail_rim_on_face",
+    "fillet_refuse_rails_leaving_faces",
+    "fillet_refuse_face_consuming_blends",
+    "fillet_refuse_non_manifold_result",
+    "fillet_vertex_error_diagnostics",
+    "fillet_corner_ball_patch",
+    "fillet_chamfer_cone_on_arc",
+    "fillet_torus_center_on_axis",
+    "offset_excess_faces_after_merge",
+    "offset_clip_right_side_out",
+    "revolution_offset_axis_both_sides",
+    "offset_extended_edges_mated",
+    "remove_slit_loops_where_solids_touch",
+    "keep_operand_uv_trims",
+    "proto_vertex_miss_is_false",
+    "check_loop_vertex_tolerance",
+    "check_loop_projected_seam_ends",
+    "trim_boundary_seam_wrap",
+    "bspline_check_min_radius",
+    "oscillating_skips_failed_guesses",
+    "refine_cc_range_ends",
+    "flat_corners_test_bits",
+    "cylinder_rebuild_mean_radius",
+    "planar_path_uncapped_open_profiles",
+    "revolve_analytic_profile_faces",
+    "revolve_arc_centre_near_axis_is_sphere",
+    "taper_pivot_nearest_corner",
+    "taper_tangent_corner_planes",
+    "revolve_nested_shells_as_cavities",
+    "revolve_holed_profile_void",
+    "curve_sweep_caps_at_sweep_ends",
+    "join_touching_loops",
+    "uv_trim_reversal_on_surface",
+    "offset_resolve_crossing_loops",
+    "offset_walls_touch_refused",
+    "offset_analytic_mate_edges",
+    "precise_properties_split_at_surface_knots",
+    "nurb_cylinder_inside_out_frame",
+    "shell_inner_shell_of_statuses",
+    "local_operation_offset_status",
+    "local_operation_refuses_loose_tangent_edges",
+    "torus_major_radius_from_origin",
+    "fillet_corner_sphere_from_four_arcs",
+    "fillet_nx1_opposite_continuation_side_edge",
+    "fillet_trace_rejects_short_step",
+    "torus_iso_circle_axis_from_midpoint",
+    "torus_keeps_inside_out",
+    "internal_pole_row_through_knot",
+    "extrusion_origin_scaled_zero",
+    "transform_scales_each_tolerance",
+    "transform_model_size_from_body_box",
+    "offset_collapsed_rounds_mated",
+    "offset_missing_surface_fails",
+    "fillet_nx1_end_rib_global_merge",
+    "uv_trim_corner_end_points_only",
+    "bspline_trim_preserves_uv_spans",
+    "cone_parallel_line_midpoint",
+    "cone_parallel_line_domains",
+    "proto_edge_self_loop_on_vertex_degenerate",
+    "slice_coincident_faces_sheet_side",
+    "boolean_outer_shell_first",
+    "edge_reversal_keeps_failed_edge",
+    "topology_failed_evaluations_propagate",
+    "heal_stage3_failures_propagate",
+    "sweep_frame_on_planar_path_normal",
+    "cover_refuses_folded_continuation",
+    "boolean_vertex_by_best_crossing",
+    "boolean_cleanup_removes_slits",
+    "classify_edge_interval",
+    "ellipse_trim_seam_lines_span_cone_height",
+    "degenerate_proto_edge_in_one_vertex",
+    "new_edge_vertex_tolerance_covers_gap",
+    "torus_signed_gen_curve_interval",
+    "sheet_sweep_joins_profile_wires",
+    "point_solve_keeps_triangle_guess",
+    "fillet_setback_from_start_vertex",
+    "imprint_trims_edge_to_proto_vertex",
+    "imprint_extends_edge_to_proto_vertex",
+    "fillet_point_step_per_point",
+    "analytic_copy_keeps_parameterization",
+    "fillet_point_bigger_step_retry",
+    "fillet_through_extended_rail_end",
+    "precise_properties_body_length_scale",
+    "offset_extension_from_base",
+    "corner_blend_stays_inside_neighbours",
+    "fillet_cleanup_keeps_target_faces",
+    "fillet_nx1_tangent_side_edge",
+    "fillet_3x2_mixed_concave_side_edge",
+    "offset_closed_curve_trim_arc",
+    "offset_stitch_at_body_tolerance",
+    "curve_contacts_at_curve_ends",
+    "shell_empty_cavity_fails",
+    "fillet_refuse_ball_not_fitting",
+    "boolean_lists_virtual_surface_copies",
+    "sphere_small_circle_not_touching",
+    "ssi_tangent_contact_points",
+    "ssi_trace_tangent_curves_once",
+    "ssi_singular_start_inside_direction",
+    "found_torus_sphere_keep_tested_nurb",
+    "boolean_skips_faces_apart",
+    "uv_trim_checks_on_surface",
+    "loop_orientation_floor_from_loop_box",
+    "offset_extends_cones_as_themselves",
+    "local_operation_box_holds_new_surfaces",
+    "uv_trim_joins_drop_pieces",
+    "shell_edges_on_analytics_exact",
+    "ssi_no_reverse_of_empty_trace",
+    "ssi_pole_point_keeps_its_tangent",
+    "iso_curve_sliver_domain_is_degenerate",
+    "corner_blend_coons_patch_tangent_to_sides",
+    "fillet_patch_keeps_fillet_edges",
+    "fillet_corner_ball_center_from_axes",
+    "seam_point_solutions_are_one",
+    "boolean2d_plane_covers_far_faces",
+    "brep_area_between_solid_and_void",
+    "boolean_splits_definition_across_split",
+    "curve_tight_box_interval_knots",
+    "fillet_refuse_overlapping_bands",
+    "ssi_tangent_curve_tracer",
+    "torus_check_reads_v_interval",
+    "torus_check_spindle_apex",
+    "local_operation_step_walls",
+    "edge_check_orders_tangent_faces",
+    "revolve_arc_touching_axis_is_horn_torus",
+    "thicken_planar_side_walls",
+    "fillet_torus_span_from_start_section",
+    "fillet_knife_edge_rounds",
+    "taper_wall_closes_at_apex",
+    "revolution_round_offset_collapses",
+    "fillet_chamfer_cone_stored_as_cone",
+    "offset_point_vertex_caps",
+    "approximate_surface_bezier_starter",
+    "proto_edge_splits_at_captured_vertices",
+    "stitch_solid_nests_cavities",
+    "local_operation_closes_walls_to_nothing",
+    "linear_sweep_arc_to_cylinder_zero",
+    "imprint_reuses_coincident_face_edge",
+    "boolean_new_face_closure_both_sides",
+    "linear_sweep_arc_is_cylinder",
+    "offset_closes_loop_gaps",
+    "cylinder_plane_tangent_within_tolerance",
+    "boolean_wire_edge_keeps_faceuse_shell",
+    "fillet_nx1_tangent_corner_edge",
+    "fillet_torus_rail_on_axis",
+    "loops_go_on_round_the_vertex",
+    "revolve_splits_curves_on_axis",
+    "cover_wraps_across_closed_seam",
+    "imprint_extension_keeps_analytic_curve",
+    "fillet_trace_from_tangent_point_toward_next",
+    "fillet_tangent_point_one_sided_step",
+    "fillet_rails_meet_at_one_end_point",
+    "fillet_trace_reaches_rails",
+    "delete_vertex_joins_seam_iso_curve",
+    "box_face_failures_propagate",
+    "ellipse_adjust_step_interval_keeps_turns",
+    "fillet_cleanup_removes_input_slits",
+    "fillet_rail_end_on_continued_surface",
+    "glue_vertices_joins_every_region",
+    "fillet_nx1_tangent_side_edge_same_convexity",
+    "fillet_removal_takes_ring_fillets",
+    "fillet_trim_inside_by_best_dot",
+    "fillet_half_degree_crease",
+    "fillet_split_edge_keeps_near_half",
+    "curve_loop_normal_from_area",
+    "fillet_cliff_overflow",
+    "fillet_3x2_tangent_side_edge_roles",
+    "offset_extension_as_itself",
+    "fillet_mitre_concave_face_corners",
+    "fillet_mitre_gap_patch",
+    "fillet_run_on_past_far_end_only",
+    "good_drop_result_distances_in_order",
+    "face_tight_box_searches_trim",
+    "ssi_low_angle_start_on_probation",
+    "fillet_variable_span_follows_fillet",
+    "simple_coincidence_crossing_is_point",
+    "boolean_temporary_transform_statuses",
+    "primitive_path_curve_statuses",
+    "planar_path_sweep_statuses",
+    "planar_path_profile_placement_statuses",
+    "fillet_trim_status",
+    "perspective_sphere_offsets",
+    "plane_recognition_origin_after_axes",
+    "fillet_corner_face_curve_halves",
+    "brep_edit_statuses_pass_on",
+    "fillet_run_on_bspline_trims",
+    "offset_tangent_gap_statuses",
+    "ssi_alignment_statuses",
+    "fillet_corner_statuses",
+    "fillet_edge_curve_domain_statuses",
+    "query_statuses_pass_on",
+    "sweep_statuses_pass_on",
+    "ssi_proto_topology_statuses_pass_on",
+    "analytic_inversion_answers_apart",
+    "fillet_statuses_pass_on",
+    "fillet_corner_per_vertex_fan",
+    "fillet_rail_trim_at_near_knot",
+    "offset_splits_corner_vertices",
+    "offset_keep_cavity_regions",
+    "offset_four_face_vertex_split",
+    "gap_samples_non_bspline_v_stride",
+    "gap_array_append_updates_longest",
+    "imprint_skips_collapsed_definition",
+    "precise_properties_trim_base_v",
+    "fillet_blend_curve_revolved_on_arc",
+    "temporary_radius_setup_errors",
+    "ellipse_step_interval_checks",
+    "corner_patch_face_side_twist",
+    "boolean_union_refuses_solid_leak",
+    "curve_loop_start_after_previous_end",
+    "loop_use_reports_open_gaps",
+    "face_points_span_domain",
+    "drop_curve_v_domain_degeneracy",
+    "mirror_curve_keeps_euclidean_control_points",
+    "fillet_corner_variable_radius_rail_on_opposite_fillet",
+    "sphere_from_arcs_common_centre",
+    "dupin_bottom_hyperbola_axis",
+    "extent3d_contains_both_segment_endpoints",
+    "translation_sweep_regularize",
+    "gap_samples_use_trimmed_spans",
+    "twist_simple_duw_sign",
+    "offset_swap_uv_extended_distance",
+    "circumscribe_axis_map_by_basis",
+    "planar_path_profile_in_path_frame",
+    "validation_does_not_make_uv_trims",
+    "iso_curve_uv_line_both_params",
+    "extrusion_step_uses_clamped_uv",
+    "analytic_corner_failure_is_false",
+    "defeature_refuses_open_base",
+    "ssi_start_loop_trace_budget",
+    "fillet_refuse_crossing_rails",
+    "proto_edge_split_upper_keeps_the_old_max",
+    "point_on_start_point_squared_tolerance",
+    "bspline_trim_keeps_rational_end_spans",
+    "fillet_exact_round_classes",
+    "curve_check_zero_speed_tangent_end",
+    "cpoly_remove_poly_face_check_member",
+    "check_seam_crossing_unclosed",
+    "ascii_doubles_round_trip",
+    "transform_aligned_bbox_image",
+    "bspline_simple_offset_matches_parameterization",
+    "offset_edges_keep_source_tolerance",
+    "best_fit_line_largest_scatter_eigenvector",
+    "circle_silhouette_perspective_center",
+    "ellipse_convert_to_2d_uses_both_axes",
+    "circle_offset_antiparallel_normal",
+    "masked_array_uses_bit_shift",
+    "global_solver_identical_prefers_larger_when_maximizing",
+    "surface_continuity_checks_last_v_knot",
+    "surface_point_solver_propagates_bbox_failure",
+    "volume_lift_third_derivative_terms",
+    "volume_discontinuity_checks_vw_unaligned",
+    "periodic_extent_add_empty_interval",
+    "stop_tracking_checks_own_callback",
+    "plane_reparameterize_moves_origin",
+    "crv_in_volume_mults_by_break_index",
+    "curve_bounded_surface_read_uv_type_and_implicit_outer",
+    "polar_box_region_to_arc_transposes_domain",
+    "point_set_centroid_all_blocks",
+    "local_solve1d_unbounded_newton_step",
+    "composite_curve_bbox_segment_intervals",
+    "knot_vector_valid_requires_span",
+    "projected_curve_transform_when_owned",
+    "curve_property_gs_branch_bounds",
+    "volume_representational_end_continuities",
+    "integrator_propagates_failure",
+    "precise_properties_span_end_from_below",
+    "offset_open_edge_second_trim_point",
+    "close_loop_relates_only_coincident_edges",
+    "ssi_split_curves_at_singular_points",
+    "surface_parallel_to_vector_checks",
+    "fillet_round_ends_at_tangent_continuation",
+    "geometric_g2_continuity",
+    "hash_table_grow_preserves_removed_records",
+    "bend_volume_bbox_contains_wide_angle_and_inf_u",
+    "bend_volume_trim_param_box_across_period",
+    "point_set_tight_pbox_projects_points",
+    "degen_param_tiebreak_uses_actual_param",
+    "conic_evaluate_uses_computed_second_deriv",
+    "cylinder_plane_section_trims_exact",
+    "local_surface_intersect_guards_max_boundary_retry",
+    "curve_max_distance_single_sample_midpoint",
+    "curve_sweep_closed_path_joins_ends",
+    "validate_tolerances_fixes_reported_gaps",
+    "edgeuse_convexity_propagates_step_off_failure",
+    "mark_lock_pair_advances_and_locks_second_context",
+    "is_iso_curve_at_propagates_canonical_failure",
+    "database_io_byte_swaps_read_boolean_and_u16",
+    "is_point_on_curve_propagates_eval_failure",
+    "is_topological_vertex_rejects_cusps_and_tangent_errors",
+    "cone_create_canonical_preserves_inside_out_and_checks_height",
+    "point_class_gap_3d_propagates_no_drop_error",
+    "fillet_surface_plane_curve_on_plane_equation",
+    "fillet_gn_section_generator",
+    "face_trim_curves_kept_where_exact",
+    "swap_uv_keeps_analytic_definition",
+    "face_shrink_bound_on_knot",
+    "offset_updates_result_tolerances",
+    "cone_iso_circle_at_axial_height",
+    "boolean_coincident_strip_drops_crossing",
+    "fillet_overflow_trim_at_creases",
+    "fillet_section_end_trim_at_creases",
+    "fillet_refuse_mixed_corner_crossing_rails",
+    "fillet_keep_features",
+    "fillet_blend_corner",
+    "fillet_exact_arc_sections",
+    "fillet_exact_arc_spans",
+    "cone_unbounded_parameterized_as_nurb",
+    "ellipse_open_arc_keeps_end_angle",
+    "fillet_round_as_definition",
+    "fillet_round_on_round_as_definition",
+    "fillet_overflow_crease_along_edge",
+    "plane_first_torus_section_exact",
+    "keep_exact_pcurves",
+    "shell_one_construction"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.99
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25099.176499509394,
+     "tol": 1.900823500490605,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.99^2 - pi*4.99^2*(5 - 4.99/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.99 (4.99 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.99 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.99 at radius 5 - 4.99/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_9999_solidcraft_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_retry_radius_as_first",
+    "fillet_rail_rim_on_face",
+    "fillet_refuse_rails_leaving_faces",
+    "fillet_refuse_face_consuming_blends",
+    "fillet_refuse_non_manifold_result",
+    "fillet_vertex_error_diagnostics",
+    "fillet_corner_ball_patch",
+    "fillet_chamfer_cone_on_arc",
+    "fillet_torus_center_on_axis",
+    "offset_excess_faces_after_merge",
+    "offset_clip_right_side_out",
+    "revolution_offset_axis_both_sides",
+    "offset_extended_edges_mated",
+    "remove_slit_loops_where_solids_touch",
+    "keep_operand_uv_trims",
+    "proto_vertex_miss_is_false",
+    "check_loop_vertex_tolerance",
+    "check_loop_projected_seam_ends",
+    "trim_boundary_seam_wrap",
+    "bspline_check_min_radius",
+    "oscillating_skips_failed_guesses",
+    "refine_cc_range_ends",
+    "flat_corners_test_bits",
+    "cylinder_rebuild_mean_radius",
+    "planar_path_uncapped_open_profiles",
+    "revolve_analytic_profile_faces",
+    "revolve_arc_centre_near_axis_is_sphere",
+    "taper_pivot_nearest_corner",
+    "taper_tangent_corner_planes",
+    "revolve_nested_shells_as_cavities",
+    "revolve_holed_profile_void",
+    "curve_sweep_caps_at_sweep_ends",
+    "join_touching_loops",
+    "uv_trim_reversal_on_surface",
+    "offset_resolve_crossing_loops",
+    "offset_walls_touch_refused",
+    "offset_analytic_mate_edges",
+    "precise_properties_split_at_surface_knots",
+    "nurb_cylinder_inside_out_frame",
+    "shell_inner_shell_of_statuses",
+    "local_operation_offset_status",
+    "local_operation_refuses_loose_tangent_edges",
+    "torus_major_radius_from_origin",
+    "fillet_corner_sphere_from_four_arcs",
+    "fillet_nx1_opposite_continuation_side_edge",
+    "fillet_trace_rejects_short_step",
+    "torus_iso_circle_axis_from_midpoint",
+    "torus_keeps_inside_out",
+    "internal_pole_row_through_knot",
+    "extrusion_origin_scaled_zero",
+    "transform_scales_each_tolerance",
+    "transform_model_size_from_body_box",
+    "offset_collapsed_rounds_mated",
+    "offset_missing_surface_fails",
+    "fillet_nx1_end_rib_global_merge",
+    "uv_trim_corner_end_points_only",
+    "bspline_trim_preserves_uv_spans",
+    "cone_parallel_line_midpoint",
+    "cone_parallel_line_domains",
+    "proto_edge_self_loop_on_vertex_degenerate",
+    "slice_coincident_faces_sheet_side",
+    "boolean_outer_shell_first",
+    "edge_reversal_keeps_failed_edge",
+    "topology_failed_evaluations_propagate",
+    "heal_stage3_failures_propagate",
+    "sweep_frame_on_planar_path_normal",
+    "cover_refuses_folded_continuation",
+    "boolean_vertex_by_best_crossing",
+    "boolean_cleanup_removes_slits",
+    "classify_edge_interval",
+    "ellipse_trim_seam_lines_span_cone_height",
+    "degenerate_proto_edge_in_one_vertex",
+    "new_edge_vertex_tolerance_covers_gap",
+    "torus_signed_gen_curve_interval",
+    "sheet_sweep_joins_profile_wires",
+    "point_solve_keeps_triangle_guess",
+    "fillet_setback_from_start_vertex",
+    "imprint_trims_edge_to_proto_vertex",
+    "imprint_extends_edge_to_proto_vertex",
+    "fillet_point_step_per_point",
+    "analytic_copy_keeps_parameterization",
+    "fillet_point_bigger_step_retry",
+    "fillet_through_extended_rail_end",
+    "precise_properties_body_length_scale",
+    "offset_extension_from_base",
+    "corner_blend_stays_inside_neighbours",
+    "fillet_cleanup_keeps_target_faces",
+    "fillet_nx1_tangent_side_edge",
+    "fillet_3x2_mixed_concave_side_edge",
+    "offset_closed_curve_trim_arc",
+    "offset_stitch_at_body_tolerance",
+    "curve_contacts_at_curve_ends",
+    "shell_empty_cavity_fails",
+    "fillet_refuse_ball_not_fitting",
+    "boolean_lists_virtual_surface_copies",
+    "sphere_small_circle_not_touching",
+    "ssi_tangent_contact_points",
+    "ssi_trace_tangent_curves_once",
+    "ssi_singular_start_inside_direction",
+    "found_torus_sphere_keep_tested_nurb",
+    "boolean_skips_faces_apart",
+    "uv_trim_checks_on_surface",
+    "loop_orientation_floor_from_loop_box",
+    "offset_extends_cones_as_themselves",
+    "local_operation_box_holds_new_surfaces",
+    "uv_trim_joins_drop_pieces",
+    "shell_edges_on_analytics_exact",
+    "ssi_no_reverse_of_empty_trace",
+    "ssi_pole_point_keeps_its_tangent",
+    "iso_curve_sliver_domain_is_degenerate",
+    "corner_blend_coons_patch_tangent_to_sides",
+    "fillet_patch_keeps_fillet_edges",
+    "fillet_corner_ball_center_from_axes",
+    "seam_point_solutions_are_one",
+    "boolean2d_plane_covers_far_faces",
+    "brep_area_between_solid_and_void",
+    "boolean_splits_definition_across_split",
+    "curve_tight_box_interval_knots",
+    "fillet_refuse_overlapping_bands",
+    "ssi_tangent_curve_tracer",
+    "torus_check_reads_v_interval",
+    "torus_check_spindle_apex",
+    "local_operation_step_walls",
+    "edge_check_orders_tangent_faces",
+    "revolve_arc_touching_axis_is_horn_torus",
+    "thicken_planar_side_walls",
+    "fillet_torus_span_from_start_section",
+    "fillet_knife_edge_rounds",
+    "taper_wall_closes_at_apex",
+    "revolution_round_offset_collapses",
+    "fillet_chamfer_cone_stored_as_cone",
+    "offset_point_vertex_caps",
+    "approximate_surface_bezier_starter",
+    "proto_edge_splits_at_captured_vertices",
+    "stitch_solid_nests_cavities",
+    "local_operation_closes_walls_to_nothing",
+    "linear_sweep_arc_to_cylinder_zero",
+    "imprint_reuses_coincident_face_edge",
+    "boolean_new_face_closure_both_sides",
+    "linear_sweep_arc_is_cylinder",
+    "offset_closes_loop_gaps",
+    "cylinder_plane_tangent_within_tolerance",
+    "boolean_wire_edge_keeps_faceuse_shell",
+    "fillet_nx1_tangent_corner_edge",
+    "fillet_torus_rail_on_axis",
+    "loops_go_on_round_the_vertex",
+    "revolve_splits_curves_on_axis",
+    "cover_wraps_across_closed_seam",
+    "imprint_extension_keeps_analytic_curve",
+    "fillet_trace_from_tangent_point_toward_next",
+    "fillet_tangent_point_one_sided_step",
+    "fillet_rails_meet_at_one_end_point",
+    "fillet_trace_reaches_rails",
+    "delete_vertex_joins_seam_iso_curve",
+    "box_face_failures_propagate",
+    "ellipse_adjust_step_interval_keeps_turns",
+    "fillet_cleanup_removes_input_slits",
+    "fillet_rail_end_on_continued_surface",
+    "glue_vertices_joins_every_region",
+    "fillet_nx1_tangent_side_edge_same_convexity",
+    "fillet_removal_takes_ring_fillets",
+    "fillet_trim_inside_by_best_dot",
+    "fillet_half_degree_crease",
+    "fillet_split_edge_keeps_near_half",
+    "curve_loop_normal_from_area",
+    "fillet_cliff_overflow",
+    "fillet_3x2_tangent_side_edge_roles",
+    "offset_extension_as_itself",
+    "fillet_mitre_concave_face_corners",
+    "fillet_mitre_gap_patch",
+    "fillet_run_on_past_far_end_only",
+    "good_drop_result_distances_in_order",
+    "face_tight_box_searches_trim",
+    "ssi_low_angle_start_on_probation",
+    "fillet_variable_span_follows_fillet",
+    "simple_coincidence_crossing_is_point",
+    "boolean_temporary_transform_statuses",
+    "primitive_path_curve_statuses",
+    "planar_path_sweep_statuses",
+    "planar_path_profile_placement_statuses",
+    "fillet_trim_status",
+    "perspective_sphere_offsets",
+    "plane_recognition_origin_after_axes",
+    "fillet_corner_face_curve_halves",
+    "brep_edit_statuses_pass_on",
+    "fillet_run_on_bspline_trims",
+    "offset_tangent_gap_statuses",
+    "ssi_alignment_statuses",
+    "fillet_corner_statuses",
+    "fillet_edge_curve_domain_statuses",
+    "query_statuses_pass_on",
+    "sweep_statuses_pass_on",
+    "ssi_proto_topology_statuses_pass_on",
+    "analytic_inversion_answers_apart",
+    "fillet_statuses_pass_on",
+    "fillet_corner_per_vertex_fan",
+    "fillet_rail_trim_at_near_knot",
+    "offset_splits_corner_vertices",
+    "offset_keep_cavity_regions",
+    "offset_four_face_vertex_split",
+    "gap_samples_non_bspline_v_stride",
+    "gap_array_append_updates_longest",
+    "imprint_skips_collapsed_definition",
+    "precise_properties_trim_base_v",
+    "fillet_blend_curve_revolved_on_arc",
+    "temporary_radius_setup_errors",
+    "ellipse_step_interval_checks",
+    "corner_patch_face_side_twist",
+    "boolean_union_refuses_solid_leak",
+    "curve_loop_start_after_previous_end",
+    "loop_use_reports_open_gaps",
+    "face_points_span_domain",
+    "drop_curve_v_domain_degeneracy",
+    "mirror_curve_keeps_euclidean_control_points",
+    "fillet_corner_variable_radius_rail_on_opposite_fillet",
+    "sphere_from_arcs_common_centre",
+    "dupin_bottom_hyperbola_axis",
+    "extent3d_contains_both_segment_endpoints",
+    "translation_sweep_regularize",
+    "gap_samples_use_trimmed_spans",
+    "twist_simple_duw_sign",
+    "offset_swap_uv_extended_distance",
+    "circumscribe_axis_map_by_basis",
+    "planar_path_profile_in_path_frame",
+    "validation_does_not_make_uv_trims",
+    "iso_curve_uv_line_both_params",
+    "extrusion_step_uses_clamped_uv",
+    "analytic_corner_failure_is_false",
+    "defeature_refuses_open_base",
+    "ssi_start_loop_trace_budget",
+    "fillet_refuse_crossing_rails",
+    "proto_edge_split_upper_keeps_the_old_max",
+    "point_on_start_point_squared_tolerance",
+    "bspline_trim_keeps_rational_end_spans",
+    "fillet_exact_round_classes",
+    "curve_check_zero_speed_tangent_end",
+    "cpoly_remove_poly_face_check_member",
+    "check_seam_crossing_unclosed",
+    "ascii_doubles_round_trip",
+    "transform_aligned_bbox_image",
+    "bspline_simple_offset_matches_parameterization",
+    "offset_edges_keep_source_tolerance",
+    "best_fit_line_largest_scatter_eigenvector",
+    "circle_silhouette_perspective_center",
+    "ellipse_convert_to_2d_uses_both_axes",
+    "circle_offset_antiparallel_normal",
+    "masked_array_uses_bit_shift",
+    "global_solver_identical_prefers_larger_when_maximizing",
+    "surface_continuity_checks_last_v_knot",
+    "surface_point_solver_propagates_bbox_failure",
+    "volume_lift_third_derivative_terms",
+    "volume_discontinuity_checks_vw_unaligned",
+    "periodic_extent_add_empty_interval",
+    "stop_tracking_checks_own_callback",
+    "plane_reparameterize_moves_origin",
+    "crv_in_volume_mults_by_break_index",
+    "curve_bounded_surface_read_uv_type_and_implicit_outer",
+    "polar_box_region_to_arc_transposes_domain",
+    "point_set_centroid_all_blocks",
+    "local_solve1d_unbounded_newton_step",
+    "composite_curve_bbox_segment_intervals",
+    "knot_vector_valid_requires_span",
+    "projected_curve_transform_when_owned",
+    "curve_property_gs_branch_bounds",
+    "volume_representational_end_continuities",
+    "integrator_propagates_failure",
+    "precise_properties_span_end_from_below",
+    "offset_open_edge_second_trim_point",
+    "close_loop_relates_only_coincident_edges",
+    "ssi_split_curves_at_singular_points",
+    "surface_parallel_to_vector_checks",
+    "fillet_round_ends_at_tangent_continuation",
+    "geometric_g2_continuity",
+    "hash_table_grow_preserves_removed_records",
+    "bend_volume_bbox_contains_wide_angle_and_inf_u",
+    "bend_volume_trim_param_box_across_period",
+    "point_set_tight_pbox_projects_points",
+    "degen_param_tiebreak_uses_actual_param",
+    "conic_evaluate_uses_computed_second_deriv",
+    "cylinder_plane_section_trims_exact",
+    "local_surface_intersect_guards_max_boundary_retry",
+    "curve_max_distance_single_sample_midpoint",
+    "curve_sweep_closed_path_joins_ends",
+    "validate_tolerances_fixes_reported_gaps",
+    "edgeuse_convexity_propagates_step_off_failure",
+    "mark_lock_pair_advances_and_locks_second_context",
+    "is_iso_curve_at_propagates_canonical_failure",
+    "database_io_byte_swaps_read_boolean_and_u16",
+    "is_point_on_curve_propagates_eval_failure",
+    "is_topological_vertex_rejects_cusps_and_tangent_errors",
+    "cone_create_canonical_preserves_inside_out_and_checks_height",
+    "point_class_gap_3d_propagates_no_drop_error",
+    "fillet_surface_plane_curve_on_plane_equation",
+    "fillet_gn_section_generator",
+    "face_trim_curves_kept_where_exact",
+    "swap_uv_keeps_analytic_definition",
+    "face_shrink_bound_on_knot",
+    "offset_updates_result_tolerances",
+    "cone_iso_circle_at_axial_height",
+    "boolean_coincident_strip_drops_crossing",
+    "fillet_overflow_trim_at_creases",
+    "fillet_section_end_trim_at_creases",
+    "fillet_refuse_mixed_corner_crossing_rails",
+    "fillet_keep_features",
+    "fillet_blend_corner",
+    "fillet_exact_arc_sections",
+    "fillet_exact_arc_spans",
+    "cone_unbounded_parameterized_as_nurb",
+    "ellipse_open_arc_keeps_end_angle",
+    "fillet_round_as_definition",
+    "fillet_round_on_round_as_definition",
+    "fillet_overflow_crease_along_edge",
+    "plane_first_torus_section_exact",
+    "keep_exact_pcurves",
+    "shell_one_construction"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.9999
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.442955974828,
+     "tol": 1.905557044025172,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.9999^2 - pi*4.9999^2*(5 - 4.9999/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.9999 (4.9999 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.9999 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.9999 at radius 5 - 4.9999/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_99999_solidcraft_fixes",
+   "note": "probe",
+   "fixes": [
+    "fillet_retry_radius_as_first",
+    "fillet_rail_rim_on_face",
+    "fillet_refuse_rails_leaving_faces",
+    "fillet_refuse_face_consuming_blends",
+    "fillet_refuse_non_manifold_result",
+    "fillet_vertex_error_diagnostics",
+    "fillet_corner_ball_patch",
+    "fillet_chamfer_cone_on_arc",
+    "fillet_torus_center_on_axis",
+    "offset_excess_faces_after_merge",
+    "offset_clip_right_side_out",
+    "revolution_offset_axis_both_sides",
+    "offset_extended_edges_mated",
+    "remove_slit_loops_where_solids_touch",
+    "keep_operand_uv_trims",
+    "proto_vertex_miss_is_false",
+    "check_loop_vertex_tolerance",
+    "check_loop_projected_seam_ends",
+    "trim_boundary_seam_wrap",
+    "bspline_check_min_radius",
+    "oscillating_skips_failed_guesses",
+    "refine_cc_range_ends",
+    "flat_corners_test_bits",
+    "cylinder_rebuild_mean_radius",
+    "planar_path_uncapped_open_profiles",
+    "revolve_analytic_profile_faces",
+    "revolve_arc_centre_near_axis_is_sphere",
+    "taper_pivot_nearest_corner",
+    "taper_tangent_corner_planes",
+    "revolve_nested_shells_as_cavities",
+    "revolve_holed_profile_void",
+    "curve_sweep_caps_at_sweep_ends",
+    "join_touching_loops",
+    "uv_trim_reversal_on_surface",
+    "offset_resolve_crossing_loops",
+    "offset_walls_touch_refused",
+    "offset_analytic_mate_edges",
+    "precise_properties_split_at_surface_knots",
+    "nurb_cylinder_inside_out_frame",
+    "shell_inner_shell_of_statuses",
+    "local_operation_offset_status",
+    "local_operation_refuses_loose_tangent_edges",
+    "torus_major_radius_from_origin",
+    "fillet_corner_sphere_from_four_arcs",
+    "fillet_nx1_opposite_continuation_side_edge",
+    "fillet_trace_rejects_short_step",
+    "torus_iso_circle_axis_from_midpoint",
+    "torus_keeps_inside_out",
+    "internal_pole_row_through_knot",
+    "extrusion_origin_scaled_zero",
+    "transform_scales_each_tolerance",
+    "transform_model_size_from_body_box",
+    "offset_collapsed_rounds_mated",
+    "offset_missing_surface_fails",
+    "fillet_nx1_end_rib_global_merge",
+    "uv_trim_corner_end_points_only",
+    "bspline_trim_preserves_uv_spans",
+    "cone_parallel_line_midpoint",
+    "cone_parallel_line_domains",
+    "proto_edge_self_loop_on_vertex_degenerate",
+    "slice_coincident_faces_sheet_side",
+    "boolean_outer_shell_first",
+    "edge_reversal_keeps_failed_edge",
+    "topology_failed_evaluations_propagate",
+    "heal_stage3_failures_propagate",
+    "sweep_frame_on_planar_path_normal",
+    "cover_refuses_folded_continuation",
+    "boolean_vertex_by_best_crossing",
+    "boolean_cleanup_removes_slits",
+    "classify_edge_interval",
+    "ellipse_trim_seam_lines_span_cone_height",
+    "degenerate_proto_edge_in_one_vertex",
+    "new_edge_vertex_tolerance_covers_gap",
+    "torus_signed_gen_curve_interval",
+    "sheet_sweep_joins_profile_wires",
+    "point_solve_keeps_triangle_guess",
+    "fillet_setback_from_start_vertex",
+    "imprint_trims_edge_to_proto_vertex",
+    "imprint_extends_edge_to_proto_vertex",
+    "fillet_point_step_per_point",
+    "analytic_copy_keeps_parameterization",
+    "fillet_point_bigger_step_retry",
+    "fillet_through_extended_rail_end",
+    "precise_properties_body_length_scale",
+    "offset_extension_from_base",
+    "corner_blend_stays_inside_neighbours",
+    "fillet_cleanup_keeps_target_faces",
+    "fillet_nx1_tangent_side_edge",
+    "fillet_3x2_mixed_concave_side_edge",
+    "offset_closed_curve_trim_arc",
+    "offset_stitch_at_body_tolerance",
+    "curve_contacts_at_curve_ends",
+    "shell_empty_cavity_fails",
+    "fillet_refuse_ball_not_fitting",
+    "boolean_lists_virtual_surface_copies",
+    "sphere_small_circle_not_touching",
+    "ssi_tangent_contact_points",
+    "ssi_trace_tangent_curves_once",
+    "ssi_singular_start_inside_direction",
+    "found_torus_sphere_keep_tested_nurb",
+    "boolean_skips_faces_apart",
+    "uv_trim_checks_on_surface",
+    "loop_orientation_floor_from_loop_box",
+    "offset_extends_cones_as_themselves",
+    "local_operation_box_holds_new_surfaces",
+    "uv_trim_joins_drop_pieces",
+    "shell_edges_on_analytics_exact",
+    "ssi_no_reverse_of_empty_trace",
+    "ssi_pole_point_keeps_its_tangent",
+    "iso_curve_sliver_domain_is_degenerate",
+    "corner_blend_coons_patch_tangent_to_sides",
+    "fillet_patch_keeps_fillet_edges",
+    "fillet_corner_ball_center_from_axes",
+    "seam_point_solutions_are_one",
+    "boolean2d_plane_covers_far_faces",
+    "brep_area_between_solid_and_void",
+    "boolean_splits_definition_across_split",
+    "curve_tight_box_interval_knots",
+    "fillet_refuse_overlapping_bands",
+    "ssi_tangent_curve_tracer",
+    "torus_check_reads_v_interval",
+    "torus_check_spindle_apex",
+    "local_operation_step_walls",
+    "edge_check_orders_tangent_faces",
+    "revolve_arc_touching_axis_is_horn_torus",
+    "thicken_planar_side_walls",
+    "fillet_torus_span_from_start_section",
+    "fillet_knife_edge_rounds",
+    "taper_wall_closes_at_apex",
+    "revolution_round_offset_collapses",
+    "fillet_chamfer_cone_stored_as_cone",
+    "offset_point_vertex_caps",
+    "approximate_surface_bezier_starter",
+    "proto_edge_splits_at_captured_vertices",
+    "stitch_solid_nests_cavities",
+    "local_operation_closes_walls_to_nothing",
+    "linear_sweep_arc_to_cylinder_zero",
+    "imprint_reuses_coincident_face_edge",
+    "boolean_new_face_closure_both_sides",
+    "linear_sweep_arc_is_cylinder",
+    "offset_closes_loop_gaps",
+    "cylinder_plane_tangent_within_tolerance",
+    "boolean_wire_edge_keeps_faceuse_shell",
+    "fillet_nx1_tangent_corner_edge",
+    "fillet_torus_rail_on_axis",
+    "loops_go_on_round_the_vertex",
+    "revolve_splits_curves_on_axis",
+    "cover_wraps_across_closed_seam",
+    "imprint_extension_keeps_analytic_curve",
+    "fillet_trace_from_tangent_point_toward_next",
+    "fillet_tangent_point_one_sided_step",
+    "fillet_rails_meet_at_one_end_point",
+    "fillet_trace_reaches_rails",
+    "delete_vertex_joins_seam_iso_curve",
+    "box_face_failures_propagate",
+    "ellipse_adjust_step_interval_keeps_turns",
+    "fillet_cleanup_removes_input_slits",
+    "fillet_rail_end_on_continued_surface",
+    "glue_vertices_joins_every_region",
+    "fillet_nx1_tangent_side_edge_same_convexity",
+    "fillet_removal_takes_ring_fillets",
+    "fillet_trim_inside_by_best_dot",
+    "fillet_half_degree_crease",
+    "fillet_split_edge_keeps_near_half",
+    "curve_loop_normal_from_area",
+    "fillet_cliff_overflow",
+    "fillet_3x2_tangent_side_edge_roles",
+    "offset_extension_as_itself",
+    "fillet_mitre_concave_face_corners",
+    "fillet_mitre_gap_patch",
+    "fillet_run_on_past_far_end_only",
+    "good_drop_result_distances_in_order",
+    "face_tight_box_searches_trim",
+    "ssi_low_angle_start_on_probation",
+    "fillet_variable_span_follows_fillet",
+    "simple_coincidence_crossing_is_point",
+    "boolean_temporary_transform_statuses",
+    "primitive_path_curve_statuses",
+    "planar_path_sweep_statuses",
+    "planar_path_profile_placement_statuses",
+    "fillet_trim_status",
+    "perspective_sphere_offsets",
+    "plane_recognition_origin_after_axes",
+    "fillet_corner_face_curve_halves",
+    "brep_edit_statuses_pass_on",
+    "fillet_run_on_bspline_trims",
+    "offset_tangent_gap_statuses",
+    "ssi_alignment_statuses",
+    "fillet_corner_statuses",
+    "fillet_edge_curve_domain_statuses",
+    "query_statuses_pass_on",
+    "sweep_statuses_pass_on",
+    "ssi_proto_topology_statuses_pass_on",
+    "analytic_inversion_answers_apart",
+    "fillet_statuses_pass_on",
+    "fillet_corner_per_vertex_fan",
+    "fillet_rail_trim_at_near_knot",
+    "offset_splits_corner_vertices",
+    "offset_keep_cavity_regions",
+    "offset_four_face_vertex_split",
+    "gap_samples_non_bspline_v_stride",
+    "gap_array_append_updates_longest",
+    "imprint_skips_collapsed_definition",
+    "precise_properties_trim_base_v",
+    "fillet_blend_curve_revolved_on_arc",
+    "temporary_radius_setup_errors",
+    "ellipse_step_interval_checks",
+    "corner_patch_face_side_twist",
+    "boolean_union_refuses_solid_leak",
+    "curve_loop_start_after_previous_end",
+    "loop_use_reports_open_gaps",
+    "face_points_span_domain",
+    "drop_curve_v_domain_degeneracy",
+    "mirror_curve_keeps_euclidean_control_points",
+    "fillet_corner_variable_radius_rail_on_opposite_fillet",
+    "sphere_from_arcs_common_centre",
+    "dupin_bottom_hyperbola_axis",
+    "extent3d_contains_both_segment_endpoints",
+    "translation_sweep_regularize",
+    "gap_samples_use_trimmed_spans",
+    "twist_simple_duw_sign",
+    "offset_swap_uv_extended_distance",
+    "circumscribe_axis_map_by_basis",
+    "planar_path_profile_in_path_frame",
+    "validation_does_not_make_uv_trims",
+    "iso_curve_uv_line_both_params",
+    "extrusion_step_uses_clamped_uv",
+    "analytic_corner_failure_is_false",
+    "defeature_refuses_open_base",
+    "ssi_start_loop_trace_budget",
+    "fillet_refuse_crossing_rails",
+    "proto_edge_split_upper_keeps_the_old_max",
+    "point_on_start_point_squared_tolerance",
+    "bspline_trim_keeps_rational_end_spans",
+    "fillet_exact_round_classes",
+    "curve_check_zero_speed_tangent_end",
+    "cpoly_remove_poly_face_check_member",
+    "check_seam_crossing_unclosed",
+    "ascii_doubles_round_trip",
+    "transform_aligned_bbox_image",
+    "bspline_simple_offset_matches_parameterization",
+    "offset_edges_keep_source_tolerance",
+    "best_fit_line_largest_scatter_eigenvector",
+    "circle_silhouette_perspective_center",
+    "ellipse_convert_to_2d_uses_both_axes",
+    "circle_offset_antiparallel_normal",
+    "masked_array_uses_bit_shift",
+    "global_solver_identical_prefers_larger_when_maximizing",
+    "surface_continuity_checks_last_v_knot",
+    "surface_point_solver_propagates_bbox_failure",
+    "volume_lift_third_derivative_terms",
+    "volume_discontinuity_checks_vw_unaligned",
+    "periodic_extent_add_empty_interval",
+    "stop_tracking_checks_own_callback",
+    "plane_reparameterize_moves_origin",
+    "crv_in_volume_mults_by_break_index",
+    "curve_bounded_surface_read_uv_type_and_implicit_outer",
+    "polar_box_region_to_arc_transposes_domain",
+    "point_set_centroid_all_blocks",
+    "local_solve1d_unbounded_newton_step",
+    "composite_curve_bbox_segment_intervals",
+    "knot_vector_valid_requires_span",
+    "projected_curve_transform_when_owned",
+    "curve_property_gs_branch_bounds",
+    "volume_representational_end_continuities",
+    "integrator_propagates_failure",
+    "precise_properties_span_end_from_below",
+    "offset_open_edge_second_trim_point",
+    "close_loop_relates_only_coincident_edges",
+    "ssi_split_curves_at_singular_points",
+    "surface_parallel_to_vector_checks",
+    "fillet_round_ends_at_tangent_continuation",
+    "geometric_g2_continuity",
+    "hash_table_grow_preserves_removed_records",
+    "bend_volume_bbox_contains_wide_angle_and_inf_u",
+    "bend_volume_trim_param_box_across_period",
+    "point_set_tight_pbox_projects_points",
+    "degen_param_tiebreak_uses_actual_param",
+    "conic_evaluate_uses_computed_second_deriv",
+    "cylinder_plane_section_trims_exact",
+    "local_surface_intersect_guards_max_boundary_retry",
+    "curve_max_distance_single_sample_midpoint",
+    "curve_sweep_closed_path_joins_ends",
+    "validate_tolerances_fixes_reported_gaps",
+    "edgeuse_convexity_propagates_step_off_failure",
+    "mark_lock_pair_advances_and_locks_second_context",
+    "is_iso_curve_at_propagates_canonical_failure",
+    "database_io_byte_swaps_read_boolean_and_u16",
+    "is_point_on_curve_propagates_eval_failure",
+    "is_topological_vertex_rejects_cusps_and_tangent_errors",
+    "cone_create_canonical_preserves_inside_out_and_checks_height",
+    "point_class_gap_3d_propagates_no_drop_error",
+    "fillet_surface_plane_curve_on_plane_equation",
+    "fillet_gn_section_generator",
+    "face_trim_curves_kept_where_exact",
+    "swap_uv_keeps_analytic_definition",
+    "face_shrink_bound_on_knot",
+    "offset_updates_result_tolerances",
+    "cone_iso_circle_at_axial_height",
+    "boolean_coincident_strip_drops_crossing",
+    "fillet_overflow_trim_at_creases",
+    "fillet_section_end_trim_at_creases",
+    "fillet_refuse_mixed_corner_crossing_rails",
+    "fillet_keep_features",
+    "fillet_blend_corner",
+    "fillet_exact_arc_sections",
+    "fillet_exact_arc_spans",
+    "cone_unbounded_parameterized_as_nurb",
+    "ellipse_open_arc_keeps_end_angle",
+    "fillet_round_as_definition",
+    "fillet_round_on_round_as_definition",
+    "fillet_overflow_crease_along_edge",
+    "plane_first_torus_section_exact",
+    "keep_exact_pcurves",
+    "shell_one_construction"
+   ],
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.99999
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25094.39988778736,
+     "tol": 1.9056001122126416,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.99999^2 - pi*4.99999^2*(5 - 4.99999/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.99999 (4.99999 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.99999 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.99999 at radius 5 - 4.99999/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_9_no_fixes",
+   "note": "probe",
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.9
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25141.84803682962,
+     "tol": 1.8581519631703813,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.9^2 - pi*4.9^2*(5 - 4.9/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.9 (4.9 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.9 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.9 at radius 5 - 4.9/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
+    }
+   }
+  },
+  {
+   "name": "near_4_99_no_fixes",
+   "note": "probe",
+   "steps": [
+    {
+     "op": "box",
+     "id": "cube",
+     "origin": [
+      -15.0,
+      -15.0,
+      0.0
+     ],
+     "size": [
+      30.0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "op": "fillet",
+     "id": "rounded",
+     "body": "cube",
+     "edges": [
+      [
+       -15.0,
+       -15.0,
+       15.0
+      ],
+      [
+       -15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       15.0,
+       15.0
+      ],
+      [
+       15.0,
+       -15.0,
+       15.0
+      ]
+     ],
+     "radius": 5.0
+    },
+    {
+     "op": "chamfer",
+     "id": "result",
+     "body": "rounded",
+     "edges": [
+      [
+       -13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       -15.0,
+       0.0,
+       0.0
+      ],
+      [
+       -13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       15.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       13.535533905932738,
+       0.0
+      ],
+      [
+       15.0,
+       0.0,
+       0.0
+      ],
+      [
+       13.535533905932738,
+       -13.535533905932738,
+       0.0
+      ],
+      [
+       0.0,
+       -15.0,
+       0.0
+      ]
+     ],
+     "distance": 4.99
+    }
+   ],
+   "expect": {
+    "lumps": 1,
+    "manifold": true,
+    "volume": {
+     "value": 25099.176499509394,
+     "tol": 1.900823500490605,
+     "formula": "(30*30 - (4 - pi)*5^2)*30 (the cube less the four R5 rounds of its vertical edges) - 4*10*4.99^2 - pi*4.99^2*(5 - 4.99/3) (the chamfer below the bottom face, by the coarea formula: int_0^4.99 (4.99 - s)*(8*10 + 2*pi*(5 - s)) ds, the perimeter of the bottom face's inward offset s times the chamfer's height 4.99 - s there; on the four arcs it is Pappus's cone sections, the triangle of legs 4.99 at radius 5 - 4.99/3 from the rounds' axes) (tol: 0.1 % of the rounds and the chamfer)"
     }
    }
   }
