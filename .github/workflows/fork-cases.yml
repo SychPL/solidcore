@@ -10,8 +10,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ref: cases/solidcraft-8038
-            glob: "8038-*"
+          - ref: probe/solidcraft-2851
+            glob: "2851-*"
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
