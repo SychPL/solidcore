@@ -1,4 +1,5 @@
-# Fork-only (never upstream): probes the SolidCraft #2147 join on GitHub's runners.
+# Fork-only (never upstream): probes the SolidCraft #2147 join on GitHub's runners, on solidcore
+# main and at SolidCraft's pin (8ddce901).
 name: fork probe 2147
 on:
   push:
@@ -6,7 +7,24 @@ on:
   workflow_dispatch:
 jobs:
   probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        ref: [main-of-probe, 8ddce901671f1cebd9214a31d21895d725e886c8]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - run: cargo run -p difftest -- --solidcraft-cases '2147-*' --no-report
+        with:
+          path: probe
+      - uses: actions/checkout@v4
+        with:
+          repository: tangency-labs/solidcore
+          ref: ${{ matrix.ref == 'main-of-probe' && github.sha || matrix.ref }}
+          path: core
+        if: matrix.ref != 'main-of-probe'
+      - name: Run the probe cases
+        run: |
+          if [ "${{ matrix.ref }}" = main-of-probe ]; then cd probe; else
+            cp probe/fixtures/solidcraft/2147-*.json core/fixtures/solidcraft/; cd core; fi
+          git log --oneline -1
+          cargo run -p difftest -- --solidcraft-cases '2147-*' --no-report
