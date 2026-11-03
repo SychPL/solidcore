@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ref: probe/solidcraft-8038
+          - ref: cases/solidcraft-8038
             glob: "8038-*"
     runs-on: ubuntu-24.04
     steps:
