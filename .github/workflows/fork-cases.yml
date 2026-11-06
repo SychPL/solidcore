@@ -1,22 +1,36 @@
-# Fork-only: runs the SolidCraft cases of the open case PRs on GitHub's runners.
+# Fork-only: runs the SolidCraft cases of the open case PRs on GitHub's runners, and draws their
+# bodies with solidcore-diag.
 name: fork cases
 on:
   push:
     branches: [fork-ci-cases]
   workflow_dispatch:
 jobs:
-  cases:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - ref: cases/solidcraft-10965
-            glob: "10965-*"
+  diag:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ matrix.ref }}
-      - run: cargo test --profile goldens -p goldens --lib solidcraft
-      - run: cargo run --profile goldens -p goldens -- --solidcraft-cases '${{ matrix.glob }}' --no-report
+          ref: diag/solidcraft-10965
+      - run: SOLIDCRAFT_DUMP="$PWD/dump" cargo run --profile goldens -p goldens -- --solidcraft-cases '10965-*' --no-report
+      - run: cargo build --release -p diagnostics
+      - name: draw every dumped body
+        run: |
+          set -u
+          ls -R dump
+          for f in dump/*/*.smb; do
+            c=$(basename "$(dirname "$f")"); s=$(basename "$f" .smb)
+            for v in "-35,30" "-35,-30" "0,20" "-90,15" "0,89"; do
+              d="pics/$c/v${v/,/_}"
+              mkdir -p "$d"
+              ./bin/release/solidcore-diag "$f" --out "$d" --view "$v" > "$d/$s.txt" 2>&1 || echo "FAILED $f $v"
+            done
+            echo "== $c/$s"; cat "pics/$c/v-35_30/$s.txt"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: diag-10965
+          path: |
+            dump
+            pics
