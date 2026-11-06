@@ -1,6 +1,6 @@
 {
  "issue": "https://github.com/tangency-labs/solidcraft/issues/10965",
- "pr": "probe",
+ "pr": "https://github.com/tangency-labs/solidcraft/pull/11360",
  "test": "probe",
  "summary": "fork-only probe",
  "cases": [
