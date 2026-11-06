@@ -10,12 +10,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ref: cases/solidcraft-2851
-            glob: "2851-*"
+          - ref: probe/solidcraft-10965
+            glob: "10965-*"
     runs-on: ubuntu-24.04
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ matrix.ref }}
-      - run: cargo test -p difftest --lib solidcraft
-      - run: cargo run -p difftest -- --solidcraft-cases '${{ matrix.glob }}' --no-report
+      - run: cargo test --profile goldens -p goldens --lib solidcraft
+      - run: cargo run --profile goldens -p goldens -- --solidcraft-cases '${{ matrix.glob }}' --no-report
