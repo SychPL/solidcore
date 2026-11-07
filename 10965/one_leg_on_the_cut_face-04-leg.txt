@@ -1,0 +1,5 @@
+body tolerance 1e-5; 3 edges; 1248 triangles; 0 faces refused
+  edge    0  tolerance 1.000e-5  faces [0]
+  edge    1  tolerance 1.000e-5  faces [0, 1]
+  edge    2  tolerance 1.000e-5  faces [0, 2]
+wrote pics/one_leg_on_the_cut_face/v-35_-30/04-leg.png and pics/one_leg_on_the_cut_face/v-35_-30/04-leg.json

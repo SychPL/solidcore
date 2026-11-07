@@ -1,0 +1,5 @@
+body tolerance 1e-5; 3 edges; 3424 triangles; 0 faces refused
+  edge    0  tolerance 1.000e-5  faces [0]
+  edge    1  tolerance 1.000e-5  faces [0, 1]
+  edge    2  tolerance 1.000e-5  faces [2, 0]
+wrote pics/ubolt_leg_from_inside_the_ring_end/v-35_-30/03-ring.png and pics/ubolt_leg_from_inside_the_ring_end/v-35_-30/03-ring.json

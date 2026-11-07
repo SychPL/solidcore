@@ -1,0 +1,5 @@
+body tolerance 1e-5; 3 edges; 3424 triangles; 0 faces refused
+  edge    0  tolerance 1.000e-5  faces [0, 2]
+  edge    1  tolerance 1.000e-5  faces [1, 2]
+  edge    2  tolerance 1.000e-5  faces [2]
+wrote pics/one_leg_on_a_half_turn_revolve/v-35_-30/01-ring.png and pics/one_leg_on_a_half_turn_revolve/v-35_-30/01-ring.json
